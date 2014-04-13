@@ -13,6 +13,9 @@ namespace tailDotNet.Console
 		[Option('f', "follow", DefaultValue = false)]
 		public bool Follow { get; set; }
 
+		[Option('n', "lines", DefaultValue = 10)]
+		public int Lines { get; set; }
+
 		[HelpOption]
 		public string GetUsage()
 		{
