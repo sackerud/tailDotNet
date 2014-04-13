@@ -39,9 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileWatchConfiguration.cs" />
+    <Compile Include="Configuration\FileWatchConfiguration.cs" />
     <Compile Include="FileWatcher.cs" />
-    <Compile Include="IWatchConfiguration.cs" />
+    <Compile Include="Configuration\IWatchConfiguration.cs" />
     <Compile Include="IWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Filtering\WatchFilter.cs" />
