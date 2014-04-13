@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace tailDotNet
+﻿namespace tailDotNet
 {
 	public interface IWatcher
 	{
+		WatchFilter Filter { get; set; }
 		bool IsPaused{ get; }
 		void Pause();
+		void Resume();
 		void Start();
 	}
 }

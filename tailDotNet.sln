@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Core", "tailDotN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Test", "tailDotNet.Test\tailDotNet.Test.csproj", "{7FED7B71-A6A8-4C41-AB66-4270D9680AE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Console", "tailDotNet.Console\tailDotNet.Console.csproj", "{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{7FED7B71-A6A8-4C41-AB66-4270D9680AE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FED7B71-A6A8-4C41-AB66-4270D9680AE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FED7B71-A6A8-4C41-AB66-4270D9680AE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,47 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace tailDotNet
 {
 	public class FileWatcher : IWatcher
 	{
-		private FileWatchConfiguration conf;
-		private bool firstReadMade;
+		private readonly FileWatchConfiguration _conf;
+		private bool _firstReadMade;
 
 		public FileWatcher(FileWatchConfiguration fileWatchConfiguration)
 		{
-			conf = fileWatchConfiguration;
+			_conf = fileWatchConfiguration;
 		}
 
+		public WatchFilter Filter { get; set; }
+		
 		public bool Paused { get; private set; }
 
-		public bool IsPaused
-		{
-			get { return Paused; }
-		}
+		public bool IsPaused { get { return Paused; } }
 
-		public void Pause()
-		{
-			Paused = true;
-		}
+		public void Pause() { Paused = true; }
+
+		public void Resume() { Paused = false; }
 
 		public void Start()
 		{
 			Paused = false;
 
-			using (var reader = new StreamReader(new FileStream(conf.FileName,
+			using (var reader = new StreamReader(new FileStream(_conf.FileName,
 					 FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
 			{
 				//start at the end of the file
-				long lastMaxOffset = firstReadMade ? reader.BaseStream.Length : 0;
+				long lastMaxOffset = _firstReadMade ? reader.BaseStream.Length : 0;
 
 				while (!Paused)
 				{
-					System.Threading.Thread.Sleep(conf.PollIntervalInMs);
+					System.Threading.Thread.Sleep(_conf.PollIntervalInMs);
 
 					//if the file size has not changed, idle
 					if (reader.BaseStream.Length == lastMaxOffset)
@@ -51,11 +44,11 @@ namespace tailDotNet
 					reader.BaseStream.Seek(lastMaxOffset, SeekOrigin.Begin);
 
 					//read out of the file until the EOF
-					string line = "";
+					string line;
 					while ((line = reader.ReadLine()) != null)
 					{
-						firstReadMade = true;
-						conf.OutPut.WriteLine(line);
+						_firstReadMade = true;
+						_conf.OutPut.WriteLine(line);
 					}
 
 					//update the last max offset
