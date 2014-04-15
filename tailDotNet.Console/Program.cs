@@ -16,8 +16,6 @@ namespace tailDotNet.Console
 			{
 				StartFileWatch(Options);
 			}
-
-			System.Console.ReadLine();
 		}
 
 		private static void StartFileWatch(TailOptions options)
@@ -26,6 +24,7 @@ namespace tailDotNet.Console
 				SpitVersionInfoAndExit();
 
 			var conf = TailOptionsToFileWatchConfiguration(options);
+			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf);
 			var fw = new FileWatcher(conf);
 			fw.Start();
 		}

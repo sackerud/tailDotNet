@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using tailDotNet.Configuration;
+using tailDotNet.Configuration.ResourceLocators;
 
 namespace tailDotNet
 {

@@ -1,8 +1,11 @@
-﻿namespace tailDotNet
+﻿using System;
+
+namespace tailDotNet
 {
-	public interface IWatcher
+	public interface IWatcher : IDisposable
 	{
 		WatchFilter Filter { get; set; }
+		IWatchConfiguration Configuration { get; set; }
 		bool IsPaused{ get; }
 		void Pause();
 		void Resume();

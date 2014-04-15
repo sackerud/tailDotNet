@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Test", "tailDotN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Console", "tailDotNet.Console\tailDotNet.Console.csproj", "{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.WPF", "tailDotNet.WPF\tailDotNet.WPF.csproj", "{F5282B29-5B4D-4989-96C2-B679B43FAF79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{468EFB7C-B2B0-49AE-93F9-815B564DB7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5282B29-5B4D-4989-96C2-B679B43FAF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5282B29-5B4D-4989-96C2-B679B43FAF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5282B29-5B4D-4989-96C2-B679B43FAF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5282B29-5B4D-4989-96C2-B679B43FAF79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

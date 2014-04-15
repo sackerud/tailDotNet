@@ -1,8 +1,9 @@
 ﻿using System.IO;
+using tailDotNet.Configuration;
 
 namespace tailDotNet
 {
-	interface IWatchConfiguration
+	public interface IWatchConfiguration
 	{
 		int PollIntervalInMs { get; set; }
 
