@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using tailDotNet.Configuration;
-using tailDotNet.Configuration.ResourceLocators;
 
-namespace tailDotNet
+namespace tailDotNet.Configuration
 {
 	public class FileWatchConfiguration : IWatchConfiguration
 	{

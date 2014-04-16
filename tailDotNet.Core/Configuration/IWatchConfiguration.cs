@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using tailDotNet.Configuration;
 
-namespace tailDotNet
+namespace tailDotNet.Configuration
 {
 	public interface IWatchConfiguration
 	{
