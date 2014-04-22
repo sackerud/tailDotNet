@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using tailDotNet.Configuration;
+using tailDotNet.Observers;
 
 namespace tailDotNet.Test
 {
@@ -18,12 +19,12 @@ namespace tailDotNet.Test
 			var fileToWatch = GetTempFileWithContents();
 			var conf = new FileWatchConfiguration
 				{
-					OutPut = Console.Out,
+					Observer = new ConsoleObserver(),
 					FileName = fileToWatch,
 				};
 			var fileWatcher = new FileWatcher(conf);
 			Console.WriteLine("About to start watching file {0}", fileToWatch);
-			fileWatcher.Start();
+			Task.Run(() => fileWatcher.Start());
 			var expected = "Hello world!";
 			fileWatcher.Pause();
 			Console.WriteLine("Is paused: {0}", fileWatcher.IsPaused);

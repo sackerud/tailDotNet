@@ -37,6 +37,12 @@ namespace tailDotNet
 		public void Pause() { Paused = true; }
 		public void Resume() { Paused = false; }
 		
+		/// <summary>
+		/// Starts tailing a file. If changes are detected in the tailed file, the
+		/// <see cref="IObserver{T}.OnNext"/> will be called. The subscription to this
+		/// observable class will be started an observer exists in the <see cref="FileWatchConfiguration"/>
+		/// sent to this class. 
+		/// </summary>
 		public void Start()
 		{
 			Paused = false;
@@ -47,21 +53,10 @@ namespace tailDotNet
 				var tailString = GetTail();
 
 				if (tailString != string.Empty)
-				{
 					NotifyObserversThatTailHasGrown(tailString);
-					//_conf.OutPut.WriteLine(tailString);
-				}
 
 				System.Threading.Thread.Sleep(_conf.PollIntervalInMs);
 			}
-		}
-
-		private void StartSubscriptionIfObserverExists(IWatchConfiguration conf)
-		{
-			if (conf == null) return;
-			if (conf.Observer == null) return;
-
-			this.Subscribe(conf.Observer);
 		}
 
 		private void NotifyObserversThatTailHasGrown(string tailString)
@@ -115,6 +110,22 @@ namespace tailDotNet
 			}
 		}
 
+		/// <summary>
+		/// If an observer exists in the configuration sent to this class, its
+		/// <see cref="IObservable{T}.Subscribe"/> method be calles.
+		/// </summary>
+		/// <param name="conf"></param>
+		private void StartSubscriptionIfObserverExists(IWatchConfiguration conf)
+		{
+			if (conf == null) return;
+			if (conf.Observer == null) return;
+
+			this.Subscribe(conf.Observer);
+		}
+
+		/// <summary>
+		/// Disposes the internal <see cref="StreamReader"/> and removes all observers.
+		/// </summary>
 		public void Dispose()
 		{
 			Pause();
@@ -135,11 +146,12 @@ namespace tailDotNet
 		}
 	}
 
-	
-
 	public class TailPayload : IDisposable
 	{
 		public string TailString { get; set; }
+		/// <summary>
+		/// The type of event that has occured. Usually it's <see cref="FileEvent.TailGrown"/>.
+		/// </summary>
 		public FileEvent TailEvent { get; set; }
 
 		public void Dispose()
@@ -150,9 +162,21 @@ namespace tailDotNet
 
 	public enum FileEvent
 	{
+		/// <summary>
+		/// The tailed file has be renamed
+		/// </summary>
 		Renamed = 1,
+		/// <summary>
+		/// A previously tailed file could not be found
+		/// </summary>
 		NotFound = 2,
+		/// <summary>
+		/// The tailed file has been deleted
+		/// </summary>
 		Deleted = 3,
+		/// <summary>
+		/// The tailed file has new (trailing) content
+		/// </summary>
 		TailGrown = 4
 	}
 }
