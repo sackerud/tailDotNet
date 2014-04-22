@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace tailDotNet.Configuration
 {
@@ -10,6 +11,8 @@ namespace tailDotNet.Configuration
 			get { return _pollIntervalInMs; }
 			set { _pollIntervalInMs = value; }
 		}
+
+		public IObserver<TailPayload> Observer { get; set; }
 
 		public string FileName { get; set; }
 		public TextWriter OutPut { get; set; }

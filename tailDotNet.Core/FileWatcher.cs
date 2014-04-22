@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using tailDotNet.Configuration;
 
 namespace tailDotNet
 {
-	public class FileWatcher : IWatcher
+	public class FileWatcher : IWatcher, IObservable<TailPayload>
 	{
 		private IWatchConfiguration _conf;
 		public IWatchConfiguration Configuration
@@ -18,12 +20,16 @@ namespace tailDotNet
 		public FileWatcher(FileWatchConfiguration fileWatchConfiguration)
 		{
 			_conf = fileWatchConfiguration;
+			_observers = new List<IObserver<TailPayload>>();
 		}
 
 		/// <summary>
 		/// Internal constructor to enable adding the configuration after the instance has been created
 		/// </summary>
-		internal FileWatcher() {}
+		internal FileWatcher()
+		{
+			_observers = new List<IObserver<TailPayload>>();
+		}
 
 		public WatchFilter Filter { get; set; }
 		public bool Paused { get; private set; }
@@ -34,15 +40,37 @@ namespace tailDotNet
 		public void Start()
 		{
 			Paused = false;
+			StartSubscriptionIfObserverExists(_conf);
 
 			while (!Paused)
 			{
 				var tailString = GetTail();
 
 				if (tailString != string.Empty)
-					_conf.OutPut.WriteLine(tailString);
+				{
+					NotifyObserversThatTailHasGrown(tailString);
+					//_conf.OutPut.WriteLine(tailString);
+				}
 
 				System.Threading.Thread.Sleep(_conf.PollIntervalInMs);
+			}
+		}
+
+		private void StartSubscriptionIfObserverExists(IWatchConfiguration conf)
+		{
+			if (conf == null) return;
+			if (conf.Observer == null) return;
+
+			this.Subscribe(conf.Observer);
+		}
+
+		private void NotifyObserversThatTailHasGrown(string tailString)
+		{
+			var payload = new TailPayload {TailString = tailString, TailEvent = FileEvent.TailGrown};
+
+			foreach (var observer in _observers)
+			{
+				observer.OnNext(payload);
 			}
 		}
 
@@ -94,7 +122,37 @@ namespace tailDotNet
 			if (_reader != null)
 			{
 				_reader.Dispose();
+				_observers.Clear();
 			}
 		}
+
+		private List<IObserver<TailPayload>> _observers;
+		public IDisposable Subscribe(IObserver<TailPayload> observer)
+		{
+			if (!_observers.Contains(observer))
+				_observers.Add(observer);
+			return new TailPayload();
+		}
+	}
+
+	
+
+	public class TailPayload : IDisposable
+	{
+		public string TailString { get; set; }
+		public FileEvent TailEvent { get; set; }
+
+		public void Dispose()
+		{
+			
+		}
+	}
+
+	public enum FileEvent
+	{
+		Renamed = 1,
+		NotFound = 2,
+		Deleted = 3,
+		TailGrown = 4
 	}
 }

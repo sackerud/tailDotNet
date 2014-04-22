@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using tailDotNet.Configuration;
+using tailDotNet.Observers;
 
 namespace tailDotNet.Console
 {
-	class Program
+	class Program : IObserver<TailPayload>
 	{
 		static readonly TailOptions Options = new TailOptions();
 
@@ -54,7 +55,7 @@ namespace tailDotNet.Console
 			var conf = new FileWatchConfiguration
 				{
 					PollIntervalInMs = (int) options.SleepIntervalInSeconds*1000,
-					OutPut = System.Console.Out,
+					Observer = new ConsoleObserver(),
 					FileName = options.Filename.First()
 				};
 
@@ -72,6 +73,22 @@ namespace tailDotNet.Console
 				return new FileExistsAssertionResult {AssertionFailedReason = string.Format("{0} does not exist", fileName)};
 
 			return new FileExistsAssertionResult {FileExists = true};
+		}
+
+		public void OnNext(TailPayload value)
+		{
+			if(value.TailEvent == FileEvent.TailGrown)
+				System.Console.WriteLine(value.TailString);
+		}
+
+		public void OnError(Exception error)
+		{
+			throw error;
+		}
+
+		public void OnCompleted()
+		{
+			throw new NotImplementedException();
 		}
 	}
 
