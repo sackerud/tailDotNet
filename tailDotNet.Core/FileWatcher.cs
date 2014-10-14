@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using tailDotNet.Configuration;
+using tailDotNet.Watchers;
 
 namespace tailDotNet
 {
 	public class FileWatcher : IWatcher, IObservable<TailPayload>
 	{
+        private ISleeper _sleeper;
 		private IWatchConfiguration _conf;
 		public IWatchConfiguration Configuration
 		{
@@ -17,17 +19,24 @@ namespace tailDotNet
 
 		private long _lastMaxOffset;
 
-		public FileWatcher(FileWatchConfiguration fileWatchConfiguration)
+		public FileWatcher(FileWatchConfiguration fileWatchConfiguration, ISleeper sleeper)
 		{
+            if (sleeper == null) throw new ArgumentNullException("sleeper");
+            if (fileWatchConfiguration == null) throw new ArgumentNullException("fileWatchConfiguration");
+
 			_conf = fileWatchConfiguration;
+            _sleeper = sleeper;
 			_observers = new List<IObserver<TailPayload>>();
 		}
 
 		/// <summary>
 		/// Internal constructor to enable adding the configuration after the instance has been created
 		/// </summary>
-		internal FileWatcher()
+		internal FileWatcher(ISleeper sleeper)
 		{
+            if (sleeper == null) throw new ArgumentNullException("sleeper");
+
+            _sleeper = sleeper;
 			_observers = new List<IObserver<TailPayload>>();
 		}
 
@@ -55,7 +64,7 @@ namespace tailDotNet
 				if (tailString != string.Empty)
 					NotifyObserversThatTailHasGrown(tailString);
 
-				System.Threading.Thread.Sleep(_conf.PollIntervalInMs);
+                _sleeper.Sleep(_conf.PollIntervalInMs);
 			}
 		}
 

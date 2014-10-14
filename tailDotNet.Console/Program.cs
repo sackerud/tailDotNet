@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using tailDotNet.Configuration;
 using tailDotNet.Observers;
+using tailDotNet.Watchers;
 
 namespace tailDotNet.Console
 {
@@ -26,9 +27,10 @@ namespace tailDotNet.Console
 				SpitVersionInfoAndExit();
 
 			var conf = TailOptionsToFileWatchConfiguration(options);
-			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf);
-			var fw = new FileWatcher(conf);
-			fw.Start();
+            ISleeper sleeper = new ThreadSleeper();
+			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, sleeper);
+			//var fw = new FileWatcher(conf, sleeper);
+			//fw.Start();
 		}
 
 		private static void SpitVersionInfoAndExit()

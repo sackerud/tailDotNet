@@ -4,16 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using tailDotNet.Configuration;
 using tailDotNet.Observers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace tailDotNet.Test
 {
-	[TestFixture]
+	[TestClass]
     public class FileWatcherTest
     {
-		[Test]
+		[TestMethod]
 		public void FileWatchTest()
 		{
 			var fileToWatch = GetTempFileWithContents();
@@ -22,12 +22,12 @@ namespace tailDotNet.Test
 					Observer = new ConsoleObserver(),
 					FileName = fileToWatch,
 				};
-			var fileWatcher = new FileWatcher(conf);
-			Console.WriteLine("About to start watching file {0}", fileToWatch);
+			var fileWatcher = new FileWatcher(conf, new FakeSleeper());
+			System.Console.WriteLine("About to start watching file {0}", fileToWatch);
 			Task.Run(() => fileWatcher.Start());
-			var expected = "Hello world!";
+			//var expected = "Hello world!";
 			fileWatcher.Pause();
-			Console.WriteLine("Is paused: {0}", fileWatcher.IsPaused);
+			System.Console.WriteLine("Is paused: {0}", fileWatcher.IsPaused);
 			//Assert.AreEqual(expected, actual.First());
 		}
 
