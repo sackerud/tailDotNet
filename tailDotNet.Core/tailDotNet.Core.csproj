@@ -50,7 +50,9 @@
     <Compile Include="Filtering\WatchFilter.cs" />
     <Compile Include="TailWatcherPool.cs" />
     <Compile Include="TailWatcherProxy.cs" />
+    <Compile Include="Watchers\IStreamReader.cs" />
     <Compile Include="Watchers\ISleeper.cs" />
+    <Compile Include="Watchers\TailStreamReader.cs" />
     <Compile Include="Watchers\ThreadSleeper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

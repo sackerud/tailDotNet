@@ -9,7 +9,8 @@ namespace tailDotNet
 {
 	public class FileWatcher : IWatcher, IObservable<TailPayload>
 	{
-        private ISleeper _sleeper;
+        private readonly IStreamReader _streamReader;
+        private readonly ISleeper _sleeper;
 		private IWatchConfiguration _conf;
 		public IWatchConfiguration Configuration
 		{
@@ -19,12 +20,14 @@ namespace tailDotNet
 
 		private long _lastMaxOffset;
 
-		public FileWatcher(FileWatchConfiguration fileWatchConfiguration, ISleeper sleeper)
+		public FileWatcher(FileWatchConfiguration fileWatchConfiguration, IStreamReader streamReader, ISleeper sleeper)
 		{
+            if (streamReader == null) throw new ArgumentNullException("streamReader");
             if (sleeper == null) throw new ArgumentNullException("sleeper");
             if (fileWatchConfiguration == null) throw new ArgumentNullException("fileWatchConfiguration");
 
 			_conf = fileWatchConfiguration;
+            _streamReader = streamReader;
             _sleeper = sleeper;
 			_observers = new List<IObserver<TailPayload>>();
 		}
@@ -32,11 +35,13 @@ namespace tailDotNet
 		/// <summary>
 		/// Internal constructor to enable adding the configuration after the instance has been created
 		/// </summary>
-		internal FileWatcher(ISleeper sleeper)
+		internal FileWatcher(IStreamReader streamReader, ISleeper sleeper)
 		{
+            if (streamReader == null) throw new ArgumentNullException("streamReader");
             if (sleeper == null) throw new ArgumentNullException("sleeper");
 
             _sleeper = sleeper;
+            _streamReader = streamReader;
 			_observers = new List<IObserver<TailPayload>>();
 		}
 
@@ -81,7 +86,7 @@ namespace tailDotNet
 		private string GetTail()
 		{
 			//if the file size has not changed, idle
-			if (FileReader.BaseStream.Length == _lastMaxOffset)
+			if (_streamReader.Length == _lastMaxOffset)
 			{
 				return string.Empty;
 			}
@@ -93,13 +98,13 @@ namespace tailDotNet
 
 			//read out of the file until the EOF
 			string line;
-			while ((line = FileReader.ReadLine()) != null)
+			while ((line = _streamReader.ReadLine()) != null)
 			{
 				stringBuffer.AppendLine(line);
 			}
 
 			//update the last max offset
-			_lastMaxOffset = FileReader.BaseStream.Position;
+			_lastMaxOffset = _streamReader.Position;
 
 			return stringBuffer.ToString();
 		}

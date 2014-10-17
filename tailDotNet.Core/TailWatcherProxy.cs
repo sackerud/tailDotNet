@@ -13,17 +13,18 @@ namespace tailDotNet
 			File
 		}
 
-		public static void StartWatcher(WatcherType watcherType, FileWatchConfiguration fileWatchConfiguration, ISleeper sleeper)
+		public static void StartWatcher(WatcherType watcherType, FileWatchConfiguration fileWatchConfiguration,
+                                        IStreamReader streamReader, ISleeper sleeper)
 		{
-			var watcher = CreateWatcherInternal(watcherType, sleeper);
+			var watcher = CreateWatcherInternal(watcherType, streamReader, sleeper);
 			watcher.Configuration = fileWatchConfiguration;
 			watcher.Start();
 			AddWatcherToPool(watcher);
 		}
 
-		public static void StartWatcher(WatcherType watcherType, string fileName, ISleeper sleeper)
+		public static void StartWatcher(WatcherType watcherType, string fileName, IStreamReader streamReader, ISleeper sleeper)
 		{
-			var watcher = CreateWatcherInternal(watcherType, sleeper);
+			var watcher = CreateWatcherInternal(watcherType, streamReader, sleeper);
 			watcher.Configuration = GetDefaultFileWatcherConfiguration(fileName);
 			watcher.Start();
 			AddWatcherToPool(watcher);
@@ -44,12 +45,12 @@ namespace tailDotNet
 			_tailWatcherPool.SuspendAll();
 		}
 
-		private static IWatcher CreateWatcherInternal(WatcherType watcherType, ISleeper sleeper)
+		private static IWatcher CreateWatcherInternal(WatcherType watcherType, IStreamReader streamReader, ISleeper sleeper)
 		{
 			switch (watcherType)
 			{
 				case WatcherType.File:
-					return new FileWatcher(sleeper);
+					return new FileWatcher(streamReader, sleeper);
 				default:
 					throw new NotImplementedException(string.Format("Factory method for {0} not implemented", watcherType.ToString()));
 			}

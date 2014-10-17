@@ -28,7 +28,8 @@ namespace tailDotNet.Console
 
 			var conf = TailOptionsToFileWatchConfiguration(options);
             ISleeper sleeper = new ThreadSleeper();
-			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, sleeper);
+            IStreamReader streamReader = new TailStreamReader(conf.FileName);
+			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, streamReader, sleeper);
 			//var fw = new FileWatcher(conf, sleeper);
 			//fw.Start();
 		}

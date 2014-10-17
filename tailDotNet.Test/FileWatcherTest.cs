@@ -22,7 +22,7 @@ namespace tailDotNet.Test
 					Observer = new ConsoleObserver(),
 					FileName = fileToWatch,
 				};
-			var fileWatcher = new FileWatcher(conf, new FakeSleeper());
+			var fileWatcher = new FileWatcher(conf, new FakeStreamReader(), new FakeSleeper());
 			System.Console.WriteLine("About to start watching file {0}", fileToWatch);
 			Task.Run(() => fileWatcher.Start());
 			//var expected = "Hello world!";

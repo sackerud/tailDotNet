@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CommandLineParserTest.cs" />
     <Compile Include="FakeSleeper.cs" />
+    <Compile Include="FakeStreamReader.cs" />
     <Compile Include="FileWatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
