@@ -11,5 +11,6 @@ namespace tailDotNet
 		void Pause();
 		void Resume();
 		void Start();
+        IDisposable Subscribe(IObserver<TailPayload> observer);
 	}
 }

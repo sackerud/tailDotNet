@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using tailDotNet.Configuration;
 using tailDotNet.Watchers;
 
@@ -57,21 +58,26 @@ namespace tailDotNet
 		/// observable class will be started an observer exists in the <see cref="FileWatchConfiguration"/>
 		/// sent to this class. 
 		/// </summary>
-		public void Start()
+        public void Start()
 		{
-			Paused = false;
-			StartSubscriptionIfObserverExists(_conf);
+            InternalStart();
+		}
 
-			while (!Paused)
-			{
-				var tailString = GetTail();
+        private void InternalStart()
+        {
+            Paused = false;
+            StartSubscriptionIfObserverExists(_conf);
 
-				if (tailString != string.Empty)
-					NotifyObserversThatTailHasGrown(tailString);
+            while (!Paused)
+            {
+                var tailString = GetTail();
+
+                if (tailString != string.Empty)
+                   NotifyObserversThatTailHasGrown(tailString);
 
                 _sleeper.Sleep(_conf.PollIntervalInMs);
-			}
-		}
+            }
+        }
 
 		private void NotifyObserversThatTailHasGrown(string tailString)
 		{
