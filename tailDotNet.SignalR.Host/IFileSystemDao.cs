@@ -8,6 +8,6 @@ namespace tailDotNet.SignalR.Host
     interface IFileSystemDao
     {
         IEnumerable<System.IO.DirectoryInfo> GetDirectories(System.IO.DriveInfo drive);
-        System.IO.DriveInfo[] GetVolumes();
+        IEnumerable<System.IO.DriveInfo> GetVolumes();
     }
 }

@@ -75,7 +75,7 @@ namespace tailDotNet.SignalR.Host
 			IStreamReader streamReader = new TailStreamReader(conf.FileName);
 			var filewatcher = new FileWatcher(conf, streamReader, sleeper);
 			filewatcher.Subscribe(this);
-			Task.Run(() => filewatcher.StartAsync()Start());
+			Task.Run(() => filewatcher.StartAsync());
 			//TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, streamReader, sleeper);
 			Console.WriteLine("Started tailing {0}", filename);
 		}
