@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Core", "tailDotNet.Core\tailDotNet.Core.csproj", "{66BE68D6-2822-4EFA-8DB3-D2AE6492E8A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Test", "tailDotNet.Test\tailDotNet.Test.csproj", "{7FED7B71-A6A8-4C41-AB66-4270D9680AE4}"
@@ -12,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.WPF", "tailDotNet.WPF\tailDotNet.WPF.csproj", "{F5282B29-5B4D-4989-96C2-B679B43FAF79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.SignalR.Host", "tailDotNet.SignalR.Host\tailDotNet.SignalR.Host.csproj", "{872CA15F-8482-4200-AAF6-116E51F76EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.SignalR.Client", "tailDotNet.SignalR.Client\tailDotNet.SignalR.Client.csproj", "{6D422F3E-CEBC-4D27-B983-503F74ED63DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +39,10 @@ Global
 		{872CA15F-8482-4200-AAF6-116E51F76EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{872CA15F-8482-4200-AAF6-116E51F76EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{872CA15F-8482-4200-AAF6-116E51F76EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

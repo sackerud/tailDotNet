@@ -63,6 +63,11 @@ namespace tailDotNet
             InternalStart();
 		}
 
+		public void StartAsync()
+		{
+			InternalStart();
+		}
+
         private void InternalStart()
         {
             Paused = false;
