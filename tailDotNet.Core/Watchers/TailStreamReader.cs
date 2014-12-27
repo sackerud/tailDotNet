@@ -18,8 +18,8 @@ namespace tailDotNet.Watchers
 
         public string ReadLine()
         {
-            char[] buffer = new char[Length - Position];
-            return _streamReader.Read(buffer, Position, Length);
+//            char[] buffer = new char[Length - Position];
+//            return _streamReader.Read(buffer, Position, Length);
             return string.Format("{0}{1}", _streamReader.ReadLine(), Environment.NewLine);
         }
 
