@@ -20,8 +20,14 @@ namespace tailDotNet.Watchers
         {
 //            char[] buffer = new char[Length - Position];
 //            return _streamReader.Read(buffer, Position, Length);
-            return string.Format("{0}{1}", _streamReader.ReadLine(), Environment.NewLine);
+	        return _streamReader.ReadLine();
+//            return string.Format("{0}{1}", _streamReader.ReadLine(), Environment.NewLine);
         }
+
+		public string ReadToEnd()
+		{
+			return _streamReader.ReadToEnd();
+		}
 
         public long Length
         {

@@ -10,7 +10,12 @@ namespace tailDotNet.Test
     public class FakeStreamReader : IStreamReader
     {
         private long _length = 0;
-        public long Length
+	    public string ReadToEnd()
+	    {
+		    throw new NotImplementedException();
+	    }
+
+	    public long Length
         {
             get
             {

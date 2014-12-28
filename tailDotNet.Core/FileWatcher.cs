@@ -114,6 +114,8 @@ namespace tailDotNet
 				stringBuffer.AppendLine(line);
 			}
 
+			//stringBuffer.Append(_streamReader.ReadToEnd());
+
 			//update the last max offset
 			_lastMaxOffset = _streamReader.Position;
 
