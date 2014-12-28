@@ -108,13 +108,13 @@ namespace tailDotNet
 			FileReader.BaseStream.Seek(_lastMaxOffset, SeekOrigin.Begin);
 
 			//read out of the file until the EOF
-			string line;
-			while ((line = _streamReader.ReadLine()) != null)
-			{
-				stringBuffer.AppendLine(line);
-			}
+//			string line;
+//			while ((line = _streamReader.ReadLine()) != null)
+//			{
+//				stringBuffer.AppendLine(line);
+//			}
 
-			//stringBuffer.Append(_streamReader.ReadToEnd());
+			stringBuffer.Append(_streamReader.ReadToEnd());
 
 			//update the last max offset
 			_lastMaxOffset = _streamReader.Position;

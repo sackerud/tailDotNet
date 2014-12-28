@@ -81,7 +81,7 @@ namespace tailDotNet.Console
 		public void OnNext(TailPayload value)
 		{
 			if(value.TailEvent == FileEvent.TailGrown)
-				System.Console.WriteLine(value.TailString);
+				System.Console.Write(value.TailString);
 		}
 
 		public void OnError(Exception error)

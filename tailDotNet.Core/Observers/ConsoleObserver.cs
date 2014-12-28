@@ -10,7 +10,7 @@ namespace tailDotNet.Observers
 		public void OnNext(TailPayload value)
 		{
 			if (value.TailEvent == FileEvent.TailGrown)
-				Console.WriteLine(value.TailString);
+				Console.Write(value.TailString);
 		}
 
 		public void OnError(Exception error)
