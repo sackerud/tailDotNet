@@ -8,6 +8,7 @@ using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Owin;
 using tailDotNet.Configuration;
+using tailDotNet.SignalR.Host.Filesystem;
 using tailDotNet.Watchers;
 
 namespace tailDotNet.SignalR.Host
@@ -65,6 +66,17 @@ namespace tailDotNet.SignalR.Host
 			Console.WriteLine("Recieved request for tailing {0}", filename);
 			//Task.Run(() => SpawnNewFileWatcher(filename));
 			SpawnNewFileWatcher(filename);
+		}
+
+		public void TailOnHost(string filename)
+		{
+			Console.WriteLine("Recieved request for tailing {0} on this host", filename);
+		}
+
+		public void GetVolumes()
+		{
+			var vols = new FileSystemManager().GetVolumes();
+			Clients.All.printVolumes(vols);
 		}
 
 		private string _filename = null;

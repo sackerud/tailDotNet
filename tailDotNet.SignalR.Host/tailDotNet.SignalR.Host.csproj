@@ -72,9 +72,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystemDao.cs" />
-    <Compile Include="FileSystemManager.cs" />
-    <Compile Include="IFileSystemDao.cs" />
+    <Compile Include="Filesystem\FileSystemObject.cs" />
+    <Compile Include="Filesystem\WindowsFsProvider.cs" />
+    <Compile Include="Filesystem\FileSystemManager.cs" />
+    <Compile Include="Filesystem\IFileSystemProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -88,6 +89,7 @@
       <Name>tailDotNet.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
