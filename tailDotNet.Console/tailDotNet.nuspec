@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
+    <id>tailDotNet</id>
+    <title>0.1</title>
+    <version>0.1</version>
+    <authors>sackerud</authors>
+    <owners>sackerud</owners>
+    <summary>An implementation of the UNIX tail command written in .Net</summary>
+    <description>An implementation of the UNIX tail command written in .Net</description>
+    <projectUrl>https://github.com/sackerud/tailDotNet</projectUrl>
+    <tags>tail</tags>
+    <copyright></copyright>
+    <licenseUrl>https://github.com/sackerud/tailDotNet/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!-- Important note about https://cdn.rawgit.com: Files are cached permanently after the first request. Use commit URLs when updating the icon. -->
+    <!--<iconUrl>http://cdn.rawgit.com/__CHOCO_PKG_MAINTAINER_REPO__/master/icons/__NAME__.png</iconUrl>-->
+    <!--<dependencies>
+      <dependency id="" version="" />
+    </dependencies>-->
+    <releaseNotes>This is the first public release and the only way to use tailDotNet at the moment is from the command line</releaseNotes>
+  </metadata>
+<!--  <files>-->
+<!--    <file src="tools\**" target="tools" />-->
+<!--  </files>-->
+</package>

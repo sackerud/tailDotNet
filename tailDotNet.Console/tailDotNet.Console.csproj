@@ -66,6 +66,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="tailDotNet.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tailDotNet.Core\tailDotNet.Core.csproj">
