@@ -73,10 +73,28 @@ namespace tailDotNet.SignalR.Host
 			Console.WriteLine("Recieved request for tailing {0} on this host", filename);
 		}
 
+		public void GetDirectoriesOfVolume(string volumeName)
+		{
+			if (volumeName == null) throw new ArgumentNullException();
+
+			var fso = new FileSystemObject
+			{
+				Name = volumeName,
+				Type = FsType.Drive
+			};
+
+			var dirs = new FileSystemManager().GetDirectories(fso);
+
+			Clients.All.printVolumes(dirs);
+		}
+
 		public void GetVolumes()
 		{
+			Console.WriteLine("Recieved request to enumerate volumes");
 			var vols = new FileSystemManager().GetVolumes();
+			Console.WriteLine("{0} volume(s) found", vols.Count());
 			Clients.All.printVolumes(vols);
+			Console.WriteLine("Volume enumeration sent to clients");
 		}
 
 		private string _filename = null;

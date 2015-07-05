@@ -5,24 +5,24 @@ using System.Linq;
 
 namespace tailDotNet.SignalR.Host.Filesystem
 {
-    class WindowsFsProvider : IFileSystemProvider
-    {
+	class WindowsFsProvider : IFileSystemProvider
+	{
 		public IEnumerable<FileSystemObject> GetVolumes()
-        {
-            var drives = DriveInfo.GetDrives().Where(d => d.IsReady);
+		{
+			var drives = DriveInfo.GetDrives().Where(d => d.IsReady);
 
 			var fsObjects = from d in drives
-			                select new FileSystemObject
-				                {
-					                Fullname = d.VolumeLabel,
-					                Name = d.Name,
-					                Type = FsType.Drive
-				                };
-            return fsObjects;
-        }
+							select new FileSystemObject
+								{
+									Fullname = d.VolumeLabel,
+									Name = d.Name,
+									Type = FsType.Drive
+								};
+			return fsObjects;
+		}
 
 		public IEnumerable<FileSystemObject> GetDirectoryListing(FileSystemObject fso)
-        {
+		{
 			if (fso == null) throw new ArgumentNullException("fso");
 			if (fso.Type == FsType.File) throw new ArgumentException("Cannot get directory listing from a file");
 
@@ -48,8 +48,8 @@ namespace tailDotNet.SignalR.Host.Filesystem
 										Type = FsType.File
 									});
 
-            return dirs;
-        }
+			return dirs;
+		}
 
 		private string GetFullname(FileSystemObject fso)
 		{
@@ -63,5 +63,5 @@ namespace tailDotNet.SignalR.Host.Filesystem
 					throw new NotImplementedException(string.Format("Getting directory listing for FileSystemObject type {0} is not implemented", fso.Type));
 			}
 		}
-    }
+	}
 }

@@ -26,8 +26,8 @@
 
 	public enum FsType
 	{
-		Directory,
-		Drive,
-		File,
+		Directory = 0,
+		Drive = 1,
+		File = 2,
 	}
 }
