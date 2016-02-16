@@ -22,7 +22,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -42,8 +42,10 @@
     <Compile Include="Configuration\FileWatchConfiguration.cs" />
     <Compile Include="Configuration\ResourceLocators\FileResourceLocator.cs" />
     <Compile Include="Configuration\ResourceLocators\IResourceLocator.cs" />
+    <Compile Include="FileEvent.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="Configuration\IWatchConfiguration.cs" />
+    <Compile Include="Ftp\IFtpWatcher.cs" />
     <Compile Include="IWatcher.cs" />
     <Compile Include="Observers\ConsoleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

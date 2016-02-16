@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using tailDotNet.Configuration;
 using tailDotNet.Watchers;
 
@@ -23,9 +22,9 @@ namespace tailDotNet
 
 		public FileWatcher(FileWatchConfiguration fileWatchConfiguration, IStreamReader streamReader, ISleeper sleeper)
 		{
-            if (streamReader == null) throw new ArgumentNullException("streamReader");
-            if (sleeper == null) throw new ArgumentNullException("sleeper");
-            if (fileWatchConfiguration == null) throw new ArgumentNullException("fileWatchConfiguration");
+            if (streamReader == null) throw new ArgumentNullException(nameof(streamReader));
+            if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
+            if (fileWatchConfiguration == null) throw new ArgumentNullException(nameof(fileWatchConfiguration));
 
 			_conf = fileWatchConfiguration;
             _streamReader = streamReader;
@@ -38,8 +37,8 @@ namespace tailDotNet
 		/// </summary>
 		internal FileWatcher(IStreamReader streamReader, ISleeper sleeper)
 		{
-            if (streamReader == null) throw new ArgumentNullException("streamReader");
-            if (sleeper == null) throw new ArgumentNullException("sleeper");
+            if (streamReader == null) throw new ArgumentNullException(nameof(streamReader));
+            if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
 
             _sleeper = sleeper;
             _streamReader = streamReader;
@@ -141,13 +140,11 @@ namespace tailDotNet
 		/// If an observer exists in the configuration sent to this class, its
 		/// <see cref="IObservable{T}.Subscribe"/> method be calles.
 		/// </summary>
-		/// <param name="conf"></param>
 		private void StartSubscriptionIfObserverExists(IWatchConfiguration conf)
 		{
-			if (conf == null) return;
-			if (conf.Observer == null) return;
+			if (conf?.Observer == null) return;
 
-			this.Subscribe(conf.Observer);
+			Subscribe(conf.Observer);
 		}
 
 		/// <summary>
@@ -157,14 +154,13 @@ namespace tailDotNet
 		{
 			Pause();
 
-			if (_reader != null)
-			{
-				_reader.Dispose();
-				_observers.Clear();
-			}
+			if (_reader == null) return;
+
+			_reader.Dispose();
+			_observers.Clear();
 		}
 
-		private List<IObserver<TailPayload>> _observers;
+		private readonly List<IObserver<TailPayload>> _observers;
 		public IDisposable Subscribe(IObserver<TailPayload> observer)
 		{
 			if (!_observers.Contains(observer))
@@ -185,25 +181,5 @@ namespace tailDotNet
 		{
 			
 		}
-	}
-
-	public enum FileEvent
-	{
-		/// <summary>
-		/// The tailed file has be renamed
-		/// </summary>
-		Renamed = 1,
-		/// <summary>
-		/// A previously tailed file could not be found
-		/// </summary>
-		NotFound = 2,
-		/// <summary>
-		/// The tailed file has been deleted
-		/// </summary>
-		Deleted = 3,
-		/// <summary>
-		/// The tailed file has new (trailing) content
-		/// </summary>
-		TailGrown = 4
 	}
 }

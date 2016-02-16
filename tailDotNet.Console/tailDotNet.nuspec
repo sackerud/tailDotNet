@@ -3,8 +3,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
-    <id>tailDotNet</id>
-    <title>0.1</title>
+    <id>taildotnet</id>
+    <title>Tail DotNet</title>
     <version>0.1</version>
     <authors>sackerud</authors>
     <owners>sackerud</owners>
@@ -22,7 +22,8 @@
     </dependencies>-->
     <releaseNotes>This is the first public release and the only way to use tailDotNet at the moment is from the command line</releaseNotes>
   </metadata>
-<!--  <files>-->
-<!--    <file src="tools\**" target="tools" />-->
-<!--  </files>-->
+  <files>
+    <file src="bin\Release\*.exe" target="tools" />
+    <file src="bin\Release\*.dll" target="tools" />
+  </files>
 </package>

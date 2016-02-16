@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Core", "tailDotNet.Core\tailDotNet.Core.csproj", "{66BE68D6-2822-4EFA-8DB3-D2AE6492E8A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.Test", "tailDotNet.Test\tailDotNet.Test.csproj", "{7FED7B71-A6A8-4C41-AB66-4270D9680AE4}"

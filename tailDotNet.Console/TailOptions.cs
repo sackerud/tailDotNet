@@ -21,7 +21,7 @@ namespace tailDotNet.Console
 		[Option('n', "lines", DefaultValue = 10, HelpText = "output the last N lines, instead of the last 10")]
 		public int Lines { get; set; }
 
-		[Option('s', "sleep-interval", DefaultValue = 1.0d, HelpText = "with -f, sleep for approximately S seconds (default 1.0) between iterations")]
+		[Option('s', "sleep-interval", DefaultValue = 1.0d, HelpText = "with -f, sleep for approximately s seconds (default 1.0) between iterations")]
 		public double SleepIntervalInSeconds { get; set; }
 
 		[Option('~', "version", DefaultValue = false, HelpText = "output version information and exit")]

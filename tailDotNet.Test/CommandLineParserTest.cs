@@ -11,13 +11,12 @@ namespace tailDotNet.Test
     public class CommandLineParserTest
     {
         [TestMethod]
-        public void ParseInclusionAndExclusionFilter()
+        public void ParseInclusionFilter()
         {
             var options = new tailDotNet.Console.TailOptions();
-            bool actual = CommandLine.Parser.Default.ParseArguments(new string[] { "" }, options);
+            bool actual = CommandLine.Parser.Default.ParseArguments(new string[] { "-i", "apa" }, options);
 
-            Assert.IsFalse(actual);
+			Assert.AreEqual("apa", options.InclusionFilter);
         }
     }
-
 }
