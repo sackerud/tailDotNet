@@ -20,7 +20,10 @@
     <!--<dependencies>
       <dependency id="" version="" />
     </dependencies>-->
-    <releaseNotes>This is the first public release and the only way to use tailDotNet at the moment is from the command line</releaseNotes>
+    <releaseNotes>
+		0.1.1 Warnings are written in yellow in the console and errors are written in red
+		0.1 This is the first public release and the only way to use tailDotNet at the moment is from the command line
+	</releaseNotes>
   </metadata>
   <files>
     <file src="bin\Release\*.exe" target="tools" />
