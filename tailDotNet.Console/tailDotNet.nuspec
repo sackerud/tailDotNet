@@ -5,13 +5,13 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>taildotnet</id>
     <title>Tail DotNet</title>
-    <version>0.1</version>
+    <version>0.1.1</version>
     <authors>sackerud</authors>
     <owners>sackerud</owners>
     <summary>An implementation of the UNIX tail command written in .Net</summary>
     <description>An implementation of the UNIX tail command written in .Net</description>
     <projectUrl>https://github.com/sackerud/tailDotNet</projectUrl>
-    <tags>tail</tags>
+    <tags>tail reading logs</tags>
     <copyright></copyright>
     <licenseUrl>https://github.com/sackerud/tailDotNet/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

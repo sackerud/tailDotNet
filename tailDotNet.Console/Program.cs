@@ -2,36 +2,42 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using CommandLine;
 using tailDotNet.Configuration;
 using tailDotNet.Observers;
 using tailDotNet.Watchers;
 
 namespace tailDotNet.Console
 {
-	class Program : IObserver<TailPayload>
+	class Program
 	{
 		static readonly TailOptions Options = new TailOptions();
 
 		static void Main(string[] args)
 		{
-			
-			if (CommandLine.Parser.Default.ParseArguments(args, Options))
+			System.Console.CancelKeyPress += ConsoleOnCancelKeyPress;
+
+			try
 			{
-				StartFileWatch(Options);
+				if (Parser.Default.ParseArguments(args, Options))
+				{
+					StartFileWatch(Options);
+				}
+			}
+			finally
+			{
+				ResetColorInConsole();
 			}
 		}
 
 		private static void StartFileWatch(TailOptions options)
 		{
-			if (options.Version)
-				SpitVersionInfoAndExit();
+			if (options.Version) SpitVersionInfoAndExit();
 
 			var conf = TailOptionsToFileWatchConfiguration(options);
             ISleeper sleeper = new ThreadSleeper();
             IStreamReader streamReader = new TailStreamReader(conf.FileName);
 			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, streamReader, sleeper);
-			//var fw = new FileWatcher(conf, sleeper);
-			//fw.Start();
 		}
 
 		private static void SpitVersionInfoAndExit()
@@ -56,42 +62,34 @@ namespace tailDotNet.Console
 			}
 
 			var conf = new FileWatchConfiguration
-				{
-					PollIntervalInMs = (int) options.SleepIntervalInSeconds*1000,
-					Observer = new ConsoleObserver(),
-					FileName = options.Filename.First()
-				};
+			{
+				PollIntervalInMs = (int) options.SleepIntervalInSeconds*1000,
+				Observer = new ConsoleObserver(),
+				FileName = options.Filename.First()
+			};
 
 			return conf;
 		}
 
 		private static FileExistsAssertionResult AssertFileExists(TailOptions options)
 		{
-			if (!options.Filename.Any())
-				return new FileExistsAssertionResult {AssertionFailedReason = "You must specify a file to tail"};
+			if (!options.Filename.Any()) return new FileExistsAssertionResult {AssertionFailedReason = "You must specify a file to tail"};
 
 			var fileName = options.Filename.First();
 
-			if (!File.Exists(fileName))
-				return new FileExistsAssertionResult {AssertionFailedReason = string.Format("{0} does not exist", fileName)};
+			if (!File.Exists(fileName)) return new FileExistsAssertionResult {AssertionFailedReason = string.Format("{0} does not exist", fileName)};
 
 			return new FileExistsAssertionResult {FileExists = true};
 		}
 
-		public void OnNext(TailPayload value)
+		private static void ConsoleOnCancelKeyPress(object sender, ConsoleCancelEventArgs consoleCancelEventArgs)
 		{
-			if(value.TailEvent == FileEvent.TailGrown)
-				System.Console.Write(value.TailString);
+			ResetColorInConsole();
 		}
 
-		public void OnError(Exception error)
+		private static void ResetColorInConsole()
 		{
-			throw error;
-		}
-
-		public void OnCompleted()
-		{
-			throw new NotImplementedException();
+			System.Console.ResetColor();
 		}
 	}
 
