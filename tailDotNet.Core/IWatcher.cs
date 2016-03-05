@@ -8,10 +8,10 @@ namespace tailDotNet
 	{
 		WatchFilter Filter { get; set; }
 		IWatchConfiguration Configuration { get; set; }
-		bool IsPaused{ get; }
+		bool IsPaused { get; }
 		void Pause();
 		void Resume();
 		void Start();
-        IDisposable Subscribe(IObserver<TailPayload> observer);
+		IDisposable Subscribe(IObserver<TailPayload> observer);
 	}
 }

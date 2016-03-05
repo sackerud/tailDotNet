@@ -10,8 +10,8 @@ namespace tailDotNet
 {
 	public class FileWatcher : IWatcher, IObservable<TailPayload>
 	{
-        private readonly IStreamReader _streamReader;
-        private readonly ISleeper _sleeper;
+		private readonly IStreamReader _streamReader;
+		private readonly ISleeper _sleeper;
 		private IWatchConfiguration _conf;
 		public IWatchConfiguration Configuration
 		{
@@ -23,13 +23,13 @@ namespace tailDotNet
 
 		public FileWatcher(FileWatchConfiguration fileWatchConfiguration, IStreamReader streamReader, ISleeper sleeper)
 		{
-            if (streamReader == null) throw new ArgumentNullException(nameof(streamReader));
-            if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
-            if (fileWatchConfiguration == null) throw new ArgumentNullException(nameof(fileWatchConfiguration));
+			if (streamReader == null) throw new ArgumentNullException(nameof(streamReader));
+			if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
+			if (fileWatchConfiguration == null) throw new ArgumentNullException(nameof(fileWatchConfiguration));
 
 			_conf = fileWatchConfiguration;
-            _streamReader = streamReader;
-            _sleeper = sleeper;
+			_streamReader = streamReader;
+			_sleeper = sleeper;
 			_observers = new List<IObserver<TailPayload>>();
 		}
 
@@ -38,11 +38,11 @@ namespace tailDotNet
 		/// </summary>
 		internal FileWatcher(IStreamReader streamReader, ISleeper sleeper)
 		{
-            if (streamReader == null) throw new ArgumentNullException(nameof(streamReader));
-            if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
+			if (streamReader == null) throw new ArgumentNullException(nameof(streamReader));
+			if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
 
-            _sleeper = sleeper;
-            _streamReader = streamReader;
+			_sleeper = sleeper;
+			_streamReader = streamReader;
 			_observers = new List<IObserver<TailPayload>>();
 		}
 
@@ -51,16 +51,16 @@ namespace tailDotNet
 		public bool IsPaused { get { return Paused; } }
 		public void Pause() { Paused = true; }
 		public void Resume() { Paused = false; }
-		
+
 		/// <summary>
 		/// Starts tailing a file. If changes are detected in the tailed file, the
 		/// <see cref="IObserver{T}.OnNext"/> will be called. The subscription to this
 		/// observable class will be started an observer exists in the <see cref="FileWatchConfiguration"/>
 		/// sent to this class. 
 		/// </summary>
-        public void Start()
+		public void Start()
 		{
-            InternalStart();
+			InternalStart();
 		}
 
 		public void StartAsync()
@@ -68,27 +68,27 @@ namespace tailDotNet
 			InternalStart();
 		}
 
-        private void InternalStart()
-        {
-            Paused = false;
-            StartSubscriptionIfObserverExists(_conf);
+		private void InternalStart()
+		{
+			Paused = false;
+			StartSubscriptionIfObserverExists(_conf);
 
-            while (!Paused)
-            {
-                var tailString = GetTail();
+			while (!Paused)
+			{
+				var tailString = GetTail();
 
-                if (tailString != string.Empty)
-                   NotifyObserversThatTailHasGrown(tailString);
+				if (tailString != string.Empty)
+					NotifyObserversThatTailHasGrown(tailString);
 
-                _sleeper.Sleep(_conf.PollIntervalInMs);
-            }
-        }
+				_sleeper.Sleep(_conf.PollIntervalInMs);
+			}
+		}
 
 		private void NotifyObserversThatTailHasGrown(string tailString)
 		{
 			if (TailHasGrownButShallObserversBeNotified(_conf, tailString) == false) return;
 
-			var payload = new TailPayload {TailString = tailString, TailEvent = FileEvent.TailGrown};
+			var payload = new TailPayload { TailString = tailString, TailEvent = FileEvent.TailGrown };
 
 			foreach (var observer in _observers)
 			{
@@ -135,7 +135,7 @@ namespace tailDotNet
 			{
 				if (_reader == null)
 				{
-					_reader = new StreamReader(new FileStream(((FileWatchConfiguration) _conf).FileName,
+					_reader = new StreamReader(new FileStream(((FileWatchConfiguration)_conf).FileName,
 														  FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 				}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using tailDotNet.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tailDotNet.Filtering;
@@ -13,9 +14,9 @@ namespace tailDotNet.Test
 		[TestMethod]
 		public void IsPaused_should_return_after_calling_pause()
 		{
-			IWatcher fileWatcher = new FakeFileWatcher();
+			IWatcher fileWatcher = new FakeFileWatcher() { };
 
-            var observer = new FileWatchObserver();
+			var observer = new FileWatchObserver();
             fileWatcher.Subscribe(observer);
 			fileWatcher.Start();
 			//var expected = "Hello world!";
@@ -58,6 +59,8 @@ namespace tailDotNet.Test
 
         private class FileWatchObserver : IObserver<TailPayload>
         {
+			internal StringBuilder GetStrings { get; set; } = new StringBuilder();
+
             public void OnCompleted()
             {
                 throw new NotImplementedException();
@@ -72,6 +75,8 @@ namespace tailDotNet.Test
             {
                 if (value.TailEvent == FileEvent.TailGrown)
                     System.Console.WriteLine(value.TailString);
+
+	            GetStrings.Append(value.TailString);
             }
         }
 
