@@ -1,5 +1,6 @@
 ﻿using System;
 using tailDotNet.Configuration;
+using tailDotNet.Filtering;
 
 namespace tailDotNet
 {

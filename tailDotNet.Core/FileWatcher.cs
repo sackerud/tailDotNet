@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using tailDotNet.Configuration;
+using tailDotNet.Filtering;
 using tailDotNet.Watchers;
 
 namespace tailDotNet
@@ -85,6 +86,8 @@ namespace tailDotNet
 
 		private void NotifyObserversThatTailHasGrown(string tailString)
 		{
+			if (TailHasGrownButShallObserversBeNotified(_conf, tailString) == false) return;
+
 			var payload = new TailPayload {TailString = tailString, TailEvent = FileEvent.TailGrown};
 
 			foreach (var observer in _observers)
@@ -93,13 +96,23 @@ namespace tailDotNet
 			}
 		}
 
+		internal bool TailHasGrownButShallObserversBeNotified(IWatchConfiguration conf, string tailString)
+		{
+			if (conf.HasWatchFilter == false) return true;
+
+			if (conf.WatchFilter.InclusionFilter != null)
+				return tailString.Contains(conf.WatchFilter.InclusionFilter.SimpleFilter);
+
+			if (conf.WatchFilter.ExclusionFilter != null)
+				return !tailString.Contains(conf.WatchFilter.ExclusionFilter.SimpleFilter);
+
+			return true;
+		}
+
 		private string GetTail()
 		{
 			//if the file size has not changed, idle
-			if (_streamReader.Length == _lastMaxOffset)
-			{
-				return string.Empty;
-			}
+			if (_streamReader.Length == _lastMaxOffset) return string.Empty;
 
 			var stringBuffer = new StringBuilder();
 
@@ -107,12 +120,6 @@ namespace tailDotNet
 			FileReader.BaseStream.Seek(_lastMaxOffset, SeekOrigin.Begin);
 
 			//read out of the file until the EOF
-//			string line;
-//			while ((line = _streamReader.ReadLine()) != null)
-//			{
-//				stringBuffer.AppendLine(line);
-//			}
-
 			stringBuffer.Append(_streamReader.ReadToEnd());
 
 			//update the last max offset
@@ -166,20 +173,6 @@ namespace tailDotNet
 			if (!_observers.Contains(observer))
 				_observers.Add(observer);
 			return new TailPayload();
-		}
-	}
-
-	public class TailPayload : IDisposable
-	{
-		public string TailString { get; set; }
-		/// <summary>
-		/// The type of event that has occured. Usually it's <see cref="FileEvent.TailGrown"/>.
-		/// </summary>
-		public FileEvent TailEvent { get; set; }
-
-		public void Dispose()
-		{
-			
 		}
 	}
 }

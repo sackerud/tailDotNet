@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tailDotNet.Configuration;
-using tailDotNet.Observers;
-using tailDotNet.Watchers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tailDotNet.Filtering;
 
 namespace tailDotNet.Test
 {
@@ -15,7 +11,7 @@ namespace tailDotNet.Test
     public class FileWatcherTest
     {
 		[TestMethod]
-		public void FileWatchTest()
+		public void IsPaused_should_return_after_calling_pause()
 		{
 			IWatcher fileWatcher = new FakeFileWatcher();
 
@@ -24,10 +20,33 @@ namespace tailDotNet.Test
 			fileWatcher.Start();
 			//var expected = "Hello world!";
             fileWatcher.Pause();
-			System.Console.WriteLine("Is paused: {0}", fileWatcher.IsPaused);
-            fileWatcher.Dispose();
-            
-			//Assert.AreEqual(expected, actual.First());
+			Assert.IsTrue(fileWatcher.IsPaused);
+		}
+
+		[TestMethod]
+		public void Tail_should_not_be_considered_as_grown_when_exclusion_filter_matches_the_payload()
+		{
+			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
+			var watchConf = new FileWatchConfiguration
+			{
+				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "splunk"} }
+			};
+
+			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "I'm a splunk!");
+			Assert.IsFalse(actual);
+		}
+
+		[TestMethod]
+		public void Tail_should_be_considered_as_grown_when_exclusion_filter_does_not_match_the_payload()
+		{
+			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
+			var watchConf = new FileWatchConfiguration
+			{
+				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "hello" } }
+			};
+
+			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "I'm a splunk!");
+			Assert.IsTrue(actual);
 		}
 
 		private string GetTempFileWithContents()

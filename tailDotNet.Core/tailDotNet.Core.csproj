@@ -50,6 +50,7 @@
     <Compile Include="Observers\ConsoleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Filtering\WatchFilter.cs" />
+    <Compile Include="TailPayload.cs" />
     <Compile Include="TailWatcherPool.cs" />
     <Compile Include="TailWatcherProxy.cs" />
     <Compile Include="Watchers\IStreamReader.cs" />

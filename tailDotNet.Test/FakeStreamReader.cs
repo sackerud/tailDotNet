@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tailDotNet.Watchers;
 
 namespace tailDotNet.Test
@@ -28,7 +24,7 @@ namespace tailDotNet.Test
 
         public string ReadLine()
         {
-            return string.Format("Length is now {0}", _length);
+            return $"Length is now {_length}";
         }
     }
 }

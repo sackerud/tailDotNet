@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using CommandLine;
 using tailDotNet.Configuration;
+using tailDotNet.Filtering;
 using tailDotNet.Observers;
 using tailDotNet.Watchers;
 
@@ -67,6 +68,28 @@ namespace tailDotNet.Console
 				Observer = new ConsoleObserver(),
 				FileName = options.Filename.First()
 			};
+
+			if (!string.IsNullOrWhiteSpace(options.InclusionFilter))
+			{
+				conf.WatchFilter = new WatchFilter
+				{
+					InclusionFilter = new Filter
+					{
+						SimpleFilter = options.InclusionFilter
+					}
+				};
+			}
+
+			if (!string.IsNullOrWhiteSpace(options.ExclusionFilter))
+			{
+				conf.WatchFilter = new WatchFilter
+				{
+					ExclusionFilter = new Filter
+					{
+						SimpleFilter = options.ExclusionFilter
+					}
+				};
+			}
 
 			return conf;
 		}

@@ -1,9 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace tailDotNet.Test
 {
@@ -13,10 +8,31 @@ namespace tailDotNet.Test
         [TestMethod]
         public void ParseInclusionFilter()
         {
-            var options = new tailDotNet.Console.TailOptions();
-            bool actual = CommandLine.Parser.Default.ParseArguments(new string[] { "-i", "apa" }, options);
+            var options = new Console.TailOptions();
+            CommandLine.Parser.Default.ParseArguments(new[] { "-i", "apa", "-e", "apa" }, options);
 
 			Assert.AreEqual("apa", options.InclusionFilter);
+			Assert.AreEqual("apa", options.ExclusionFilter);
         }
+
+	    [TestMethod]
+	    public void Inclusion_and_exclusion_filter_should_be_mutually_exclusive()
+	    {
+		    var options = new Console.TailOptions();
+		    var args = new[]
+		    {
+			    "-e", "Exclude this",
+			    "-i", "Include this"
+		    };
+
+			var actual = CommandLine.Parser.Default.ParseArgumentsStrict(args, options, OnFail);
+
+			Assert.AreEqual(false, actual, "Command line arguments: {0}", string.Join(" ", args));
+	    }
+
+	    private void OnFail()
+	    {
+		    System.Console.WriteLine("Parsing arguments failed");
+	    }
     }
 }
