@@ -9,13 +9,13 @@ namespace tailDotNet.Console
     /// </summary>
 	public class TailOptions
 	{
-        [Option('e', "excludefilter", HelpText = "exclude the specified string from the output", MutuallyExclusiveSet = "filtering")]
+        [Option('e', "excludefilter", HelpText = "don't write to the console if the specified string exists in the current tail", MutuallyExclusiveSet = "filtering")]
         public string ExclusionFilter {get;set;}
 
 		[Option('f', "follow", DefaultValue = false, HelpText = "output appended data as the file grows")]
 		public bool Follow { get; set; }
 
-        [Option('i', "includefilter", HelpText = "only include the specified string in the output", MutuallyExclusiveSet = "filtering")]
+        [Option('i', "includefilter", HelpText = "write to the console only if the specified string exists in the current tail", MutuallyExclusiveSet = "filtering")]
         public string InclusionFilter { get; set; }
 
 		[Option('n', "lines", DefaultValue = 10, HelpText = "output the last N lines, instead of the last 10")]

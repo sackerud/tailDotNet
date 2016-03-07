@@ -10,17 +10,17 @@ using tailDotNet.Watchers;
 
 namespace tailDotNet.Console
 {
-	class Program
+	public class Program
 	{
 		static readonly TailOptions Options = new TailOptions();
 
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
 			System.Console.CancelKeyPress += ConsoleOnCancelKeyPress;
 
 			try
 			{
-				if (Parser.Default.ParseArguments(args, Options))
+				if (PopulateOptionsFromCommandArgs(args))
 				{
 					StartFileWatch(Options);
 				}
@@ -29,6 +29,21 @@ namespace tailDotNet.Console
 			{
 				ResetColorInConsole();
 			}
+		}
+
+		private static bool PopulateOptionsFromCommandArgs(string[] args)
+		{
+			var argsParsedSuccessfully = Parser.Default.ParseArguments(args, Options);
+
+			if (!argsParsedSuccessfully) return false;
+
+			if (!string.IsNullOrWhiteSpace(Options.ExclusionFilter)
+			    && !string.IsNullOrWhiteSpace(Options.InclusionFilter))
+			{
+				throw new NotSupportedException("Exclusion filter and inclusion filter are mutually exclusive");
+			}
+
+			return true;
 		}
 
 		private static void StartFileWatch(TailOptions options)

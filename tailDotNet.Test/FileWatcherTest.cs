@@ -9,19 +9,34 @@ using tailDotNet.Filtering;
 namespace tailDotNet.Test
 {
 	[TestClass]
-    public class FileWatcherTest
-    {
+	public class FileWatcherTest
+	{
 		[TestMethod]
 		public void IsPaused_should_return_after_calling_pause()
 		{
-			IWatcher fileWatcher = new FakeFileWatcher() { };
+			IWatcher fileWatcher = new FakeFileWatcher();
 
 			var observer = new FileWatchObserver();
-            fileWatcher.Subscribe(observer);
+			fileWatcher.Subscribe(observer);
 			fileWatcher.Start();
-			//var expected = "Hello world!";
-            fileWatcher.Pause();
+
+			fileWatcher.Pause();
 			Assert.IsTrue(fileWatcher.IsPaused);
+		}
+
+		[TestMethod]
+		public void Test()
+		{
+			var fileWatcher = new FakeFileWatcher();
+			var observer = new FileWatchObserver();
+
+			fileWatcher.Subscribe(observer);
+			fileWatcher.Start();
+
+			var expectedTailString = $"This is a string with a newline{Environment.NewLine}This is the next row";
+			fileWatcher.AddTextToFile(expectedTailString);
+
+			Assert.AreEqual(expectedTailString, observer.GetObservedStrings());
 		}
 
 		[TestMethod]
@@ -30,7 +45,7 @@ namespace tailDotNet.Test
 			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
 			var watchConf = new FileWatchConfiguration
 			{
-				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "splunk"} }
+				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "splunk" } }
 			};
 
 			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "I'm a splunk!");
@@ -57,80 +72,87 @@ namespace tailDotNet.Test
 			return tempFileName;
 		}
 
-        private class FileWatchObserver : IObserver<TailPayload>
-        {
-			internal StringBuilder GetStrings { get; set; } = new StringBuilder();
+		internal class FileWatchObserver : IObserver<TailPayload>
+		{
+			private StringBuilder StringBuilder { get; } = new StringBuilder();
 
-            public void OnCompleted()
-            {
-                throw new NotImplementedException();
-            }
+			internal string GetObservedStrings()
+			{
+				return StringBuilder.ToString();
+			}
 
-            public void OnError(Exception error)
-            {
-                throw error;
-            }
+			public void OnCompleted()
+			{
+				throw new NotImplementedException();
+			}
 
-            public void OnNext(TailPayload value)
-            {
-                if (value.TailEvent == FileEvent.TailGrown)
-                    System.Console.WriteLine(value.TailString);
+			public void OnError(Exception error)
+			{
+				throw error;
+			}
 
-	            GetStrings.Append(value.TailString);
-            }
-        }
+			public void OnNext(TailPayload value)
+			{
+				if (value.TailEvent == FileEvent.TailGrown)
+					StringBuilder.Append(value.TailString);
+			}
+		}
 
-        private class FakeFileWatcher : IWatcher
-        {
+		private class FakeFileWatcher : IWatcher
+		{
 
-            public FakeFileWatcher()
-            {
-                _observers = new List<IObserver<TailPayload>>();
-            }
+			public FakeFileWatcher()
+			{
+				_observers = new List<IObserver<TailPayload>>();
+			}
 
-            public WatchFilter Filter
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-                set
-                {
-                    throw new NotImplementedException();
-                }
-            }
+			public WatchFilter Filter
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+				set
+				{
+					throw new NotImplementedException();
+				}
+			}
 
-            public IWatchConfiguration Configuration { get; set;}
+			public IWatchConfiguration Configuration { get; set; }
 
-            private bool _isPaused;
-            public bool IsPaused
-            {
-                get { return _isPaused; }
-            }
+			private bool _isPaused;
+			public bool IsPaused
+			{
+				get { return _isPaused; }
+			}
 
-            public void Pause() { _isPaused = true; }
-            public void Resume() { _isPaused = false; }
+			public void Pause() { _isPaused = true; }
+			public void Resume() { _isPaused = false; }
 
-            public void Start()
-            {
-                var tailString = string.Format("This is a string with a newline{0}This is the next row", Environment.NewLine);
-                var payload = new TailPayload { TailString = tailString, TailEvent = FileEvent.TailGrown };
+			public void Start()
+			{
 
-                foreach (var observer in _observers)
-                {
-                    observer.OnNext(payload);
-                }
-            }
+			}
 
-            public void Dispose() {}
+			internal void AddTextToFile(string text)
+			{
+				var payload = new TailPayload { TailString = text, TailEvent = FileEvent.TailGrown };
 
-            private List<IObserver<TailPayload>> _observers;
-            public IDisposable Subscribe(IObserver<TailPayload> observer)
-            {
-                if (!_observers.Contains(observer))
-                    _observers.Add(observer);
-                return new TailPayload();
-            }
-        }
-    }
+				foreach (var observer in _observers)
+				{
+					observer.OnNext(payload);
+				}
+			}
+
+			public void Dispose() { }
+
+			private List<IObserver<TailPayload>> _observers;
+			public IDisposable Subscribe(IObserver<TailPayload> observer)
+			{
+				if (!_observers.Contains(observer))
+					_observers.Add(observer);
+				return new TailPayload();
+			}
+		}
+	}
 }
