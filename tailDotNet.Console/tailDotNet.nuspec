@@ -5,7 +5,7 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>taildotnet</id>
     <title>Tail DotNet</title>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <authors>sackerud</authors>
     <owners>sackerud</owners>
     <summary>An implementation of the UNIX tail command written in .Net</summary>
