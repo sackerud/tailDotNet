@@ -99,12 +99,12 @@ namespace tailDotNet
 		internal bool TailHasGrownButShallObserversBeNotified(IWatchConfiguration conf, string tailString)
 		{
 			if (conf.HasWatchFilter == false) return true;
-
+			
 			if (conf.WatchFilter.InclusionFilter != null)
-				return tailString.Contains(conf.WatchFilter.InclusionFilter.SimpleFilter);
+				return tailString.ToLower().Contains(conf.WatchFilter.InclusionFilter.SimpleFilter.ToLower());
 
 			if (conf.WatchFilter.ExclusionFilter != null)
-				return !tailString.Contains(conf.WatchFilter.ExclusionFilter.SimpleFilter);
+				return !tailString.ToLower().Contains(conf.WatchFilter.ExclusionFilter.SimpleFilter.ToLower());
 
 			return true;
 		}

@@ -65,6 +65,32 @@ namespace tailDotNet.Test
 			Assert.IsTrue(actual);
 		}
 
+		[TestMethod]
+		public void Inclusion_filter_should_be_case_insensetive()
+		{
+			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
+			var watchConf = new FileWatchConfiguration
+			{
+				WatchFilter = new WatchFilter() { InclusionFilter = new Filter() { SimpleFilter = "hello" } }
+			};
+
+			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "HELLO!");
+			Assert.IsTrue(actual);
+		}
+
+		[TestMethod]
+		public void Exclusion_filter_should_be_case_insensetive()
+		{
+			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
+			var watchConf = new FileWatchConfiguration
+			{
+				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "hello" } }
+			};
+
+			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "HELLO!");
+			Assert.IsFalse(actual);
+		}
+
 		private string GetTempFileWithContents()
 		{
 			var tempFileName = Path.GetTempFileName();
