@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.SignalR.Host", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.SignalR.Client", "tailDotNet.SignalR.Client\tailDotNet.SignalR.Client.csproj", "{6D422F3E-CEBC-4D27-B983-503F74ED63DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.UWP", "tailDotNet.UWP\tailDotNet.UWP.csproj", "{4967E22A-7A93-4F82-94B1-E8A40B7D9444}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,26 +123,6 @@ Global
 		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|x64.Build.0 = Release|Any CPU
 		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|x86.Build.0 = Release|Any CPU
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|ARM.ActiveCfg = Debug|ARM
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|ARM.Build.0 = Debug|ARM
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|ARM.Deploy.0 = Debug|ARM
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|x64.ActiveCfg = Debug|x64
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|x64.Build.0 = Debug|x64
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|x64.Deploy.0 = Debug|x64
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|x86.ActiveCfg = Debug|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|x86.Build.0 = Debug|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Debug|x86.Deploy.0 = Debug|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|Any CPU.ActiveCfg = Release|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|ARM.ActiveCfg = Release|ARM
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|ARM.Build.0 = Release|ARM
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|ARM.Deploy.0 = Release|ARM
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|x64.ActiveCfg = Release|x64
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|x64.Build.0 = Release|x64
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|x64.Deploy.0 = Release|x64
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|x86.ActiveCfg = Release|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|x86.Build.0 = Release|x86
-		{4967E22A-7A93-4F82-94B1-E8A40B7D9444}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
