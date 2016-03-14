@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.SignalR.Host", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.SignalR.Client", "tailDotNet.SignalR.Client\tailDotNet.SignalR.Client.csproj", "{6D422F3E-CEBC-4D27-B983-503F74ED63DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tailDotNet.UWP", "tailDotNet.UWP\tailDotNet.UWP.csproj", "{E0A6103D-CD73-4510-BF2A-F0455D23D923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,28 @@ Global
 		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|x64.Build.0 = Release|Any CPU
 		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{6D422F3E-CEBC-4D27-B983-503F74ED63DB}.Release|x86.Build.0 = Release|Any CPU
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|Any CPU.Build.0 = Debug|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|ARM.ActiveCfg = Debug|ARM
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|ARM.Build.0 = Debug|ARM
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|ARM.Deploy.0 = Debug|ARM
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|x64.ActiveCfg = Debug|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|x64.Build.0 = Debug|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|x64.Deploy.0 = Debug|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|x86.ActiveCfg = Debug|x86
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|x86.Build.0 = Debug|x86
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Debug|x86.Deploy.0 = Debug|x86
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|Any CPU.ActiveCfg = Release|x86
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|ARM.ActiveCfg = Release|ARM
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|ARM.Build.0 = Release|ARM
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|ARM.Deploy.0 = Release|ARM
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|x64.ActiveCfg = Release|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|x64.Build.0 = Release|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|x64.Deploy.0 = Release|x64
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|x86.ActiveCfg = Release|x86
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|x86.Build.0 = Release|x86
+		{E0A6103D-CD73-4510-BF2A-F0455D23D923}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
