@@ -49,7 +49,15 @@ namespace tailDotNet.UWP.Views
 
 		private async Task<IReadOnlyList<StorageFile>> PickFileAsync()
 		{
-			var picker = new FileOpenPicker();
+			var picker = new FileOpenPicker
+			{
+				ViewMode = PickerViewMode.List,
+				SuggestedStartLocation = PickerLocationId.ComputerFolder,
+				CommitButtonText = "Tail file(s)",
+			};
+
+			picker.FileTypeFilter.Add("*");
+
 			var files = await picker.PickMultipleFilesAsync();
 
 			if (files == null) return null;
