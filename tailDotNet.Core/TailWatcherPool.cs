@@ -36,8 +36,6 @@ namespace tailDotNet
 		/// <summary>
 		/// Returns a list of file watchers by filename.
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
 		public IList<FileWatcher> GetFileWatcherByFileName(string filename)
 		{
 			var watcherList = new List<FileWatcher>();

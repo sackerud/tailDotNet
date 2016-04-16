@@ -6,7 +6,7 @@ namespace tailDotNet
 {
 	public class TailWatcherProxy
 	{
-		private static TailWatcherPool _tailWatcherPool = new TailWatcherPool();
+		private static readonly TailWatcherPool _tailWatcherPool = new TailWatcherPool();
 
 		public enum WatcherType
 		{
@@ -52,7 +52,7 @@ namespace tailDotNet
 				case WatcherType.File:
 					return new FileWatcher(streamReader, sleeper);
 				default:
-					throw new NotImplementedException(string.Format("Factory method for {0} not implemented", watcherType.ToString()));
+					throw new NotImplementedException($"Factory method for {watcherType} not implemented");
 			}
 		}
 

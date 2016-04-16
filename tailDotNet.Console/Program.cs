@@ -20,10 +20,7 @@ namespace tailDotNet.Console
 
 			try
 			{
-				if (PopulateOptionsFromCommandArgs(args))
-				{
-					StartFileWatch(Options);
-				}
+				if (PopulateOptionsFromCommandArgs(args)) StartFileWatch(Options);
 			}
 			finally
 			{
@@ -81,7 +78,8 @@ namespace tailDotNet.Console
 			{
 				PollIntervalInMs = (int) options.SleepIntervalInSeconds*1000,
 				Observer = new ConsoleObserver(),
-				FileName = options.Filename.First()
+				FileName = options.Filename.First(),
+				NumberOfLinesToOutputWhenWatchingStarts = options.Lines
 			};
 
 			if (!string.IsNullOrWhiteSpace(options.InclusionFilter))
@@ -115,9 +113,12 @@ namespace tailDotNet.Console
 
 			var fileName = options.Filename.First();
 
-			if (!File.Exists(fileName)) return new FileExistsAssertionResult {AssertionFailedReason = string.Format("{0} does not exist", fileName)};
+			if (!File.Exists(fileName)) return new FileExistsAssertionResult
+													{ AssertionFailedReason =
+														$"{fileName} does not exist"
+													};
 
-			return new FileExistsAssertionResult {FileExists = true};
+			return new FileExistsAssertionResult { FileExists = true };
 		}
 
 		private static void ConsoleOnCancelKeyPress(object sender, ConsoleCancelEventArgs consoleCancelEventArgs)
