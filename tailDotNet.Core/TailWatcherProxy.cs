@@ -6,11 +6,7 @@ namespace tailDotNet
 {
 	public class TailWatcherProxy
 	{
-<<<<<<< HEAD
-		private static TailWatcherPool _tailWatcherPool = new TailWatcherPool();
-=======
 		private static readonly TailWatcherPool TailWatcherPool = new TailWatcherPool();
->>>>>>> 9ea9e71...  * Prepared version info for the 1.3 relesase  * Remove unused code  * Prepared for proper implementation of the -f parameter
 
 		public enum WatcherType
 		{
