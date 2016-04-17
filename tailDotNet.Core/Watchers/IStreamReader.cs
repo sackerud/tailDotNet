@@ -1,4 +1,6 @@
-﻿namespace tailDotNet.Watchers
+﻿using System.IO;
+
+namespace tailDotNet.Watchers
 {
 	public interface IStreamReader
 	{
@@ -6,5 +8,7 @@
 		string ReadToEnd();
 		long Length { get; }
 		long Position { get; }
+		Stream BaseStream { get; }
+		void Dispose();
 	}
 }

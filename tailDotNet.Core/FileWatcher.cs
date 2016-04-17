@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using tailDotNet.Configuration;
-using tailDotNet.Filtering;
 using tailDotNet.Watchers;
 
 namespace tailDotNet
 {
 	public class FileWatcher : IWatcher, IObservable<TailPayload>
 	{
-		private readonly IStreamReader _streamReader;
 		private readonly ISleeper _sleeper;
-		private IWatchConfiguration _conf;
-		public IWatchConfiguration Configuration
-		{
-			get { return _conf; }
-			set { _conf = value; }
-		}
+		public IWatchConfiguration Configuration { get; set; }
+
+		private IStreamReader _reader;
+		private IStreamReader FileReader => _reader ?? (_reader = new TailStreamReader(((FileWatchConfiguration)Configuration).FileName));
 
 		private long _lastMaxOffset;
 
@@ -27,10 +24,9 @@ namespace tailDotNet
 			if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
 			if (fileWatchConfiguration == null) throw new ArgumentNullException(nameof(fileWatchConfiguration));
 
-			_conf = fileWatchConfiguration;
-			_streamReader = streamReader;
+			Configuration = fileWatchConfiguration;
+			_reader = streamReader;
 			_sleeper = sleeper;
-			_observers = new List<IObserver<TailPayload>>();
 		}
 
 		/// <summary>
@@ -42,13 +38,11 @@ namespace tailDotNet
 			if (sleeper == null) throw new ArgumentNullException(nameof(sleeper));
 
 			_sleeper = sleeper;
-			_streamReader = streamReader;
-			_observers = new List<IObserver<TailPayload>>();
+			_reader = streamReader;
 		}
 
-		public WatchFilter Filter { get; set; }
 		public bool Paused { get; private set; }
-		public bool IsPaused { get { return Paused; } }
+		public bool IsPaused => Paused;
 		public void Pause() { Paused = true; }
 		public void Resume() { Paused = false; }
 
@@ -71,7 +65,9 @@ namespace tailDotNet
 		private void InternalStart()
 		{
 			Paused = false;
-			StartSubscriptionIfObserverExists(_conf);
+			StartSubscriptionIfObserverExists(Configuration);
+
+			SetStreamPosition(Configuration as FileWatchConfiguration);
 
 			while (!Paused)
 			{
@@ -80,13 +76,32 @@ namespace tailDotNet
 				if (tailString != string.Empty)
 					NotifyObserversThatTailHasGrown(tailString);
 
-				_sleeper.Sleep(_conf.PollIntervalInMs);
+				_sleeper.Sleep(Configuration.PollIntervalInMs);
+			}
+		}
+
+		private void SetStreamPosition(FileWatchConfiguration conf)
+		{
+			if (conf.NumberOfLinesToOutputWhenWatchingStarts < 1) return;
+
+			var lineNumberToStartTailingFrom = File.ReadLines(conf.FileName).Count() -
+			                                   conf.NumberOfLinesToOutputWhenWatchingStarts;
+
+			if (lineNumberToStartTailingFrom <= 0) return;
+
+			var index = 1;
+
+			while (FileReader.ReadLine() != null)
+			{
+				if (lineNumberToStartTailingFrom == index) break;
+
+				index++;
 			}
 		}
 
 		private void NotifyObserversThatTailHasGrown(string tailString)
 		{
-			if (TailHasGrownButShallObserversBeNotified(_conf, tailString) == false) return;
+			if (TailHasGrownButShallObserversBeNotified(Configuration, tailString) == false) return;
 
 			var payload = new TailPayload { TailString = tailString, TailEvent = FileEvent.TailGrown };
 
@@ -112,35 +127,20 @@ namespace tailDotNet
 		private string GetTail()
 		{
 			//if the file size has not changed, idle
-			if (_streamReader.Length == _lastMaxOffset) return string.Empty;
+			if (FileReader.BaseStream.Length == _lastMaxOffset) return string.Empty;
 
 			var stringBuffer = new StringBuilder();
 
 			//seek to the last max offset
-			FileReader.BaseStream.Seek(_lastMaxOffset, SeekOrigin.Begin);
+			FileReader.BaseStream.Seek(_lastMaxOffset, SeekOrigin.Current);
 
 			//read out of the file until the EOF
-			stringBuffer.Append(_streamReader.ReadToEnd());
+			stringBuffer.Append(FileReader.ReadToEnd());
 
 			//update the last max offset
-			_lastMaxOffset = _streamReader.Position;
+			_lastMaxOffset = FileReader.BaseStream.Position;
 
 			return stringBuffer.ToString();
-		}
-
-		private StreamReader _reader;
-		private StreamReader FileReader
-		{
-			get
-			{
-				if (_reader == null)
-				{
-					_reader = new StreamReader(new FileStream(((FileWatchConfiguration)_conf).FileName,
-														  FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-				}
-
-				return _reader;
-			}
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace tailDotNet
 			_observers.Clear();
 		}
 
-		private readonly List<IObserver<TailPayload>> _observers;
+		private readonly List<IObserver<TailPayload>> _observers = new List<IObserver<TailPayload>>();
 		public IDisposable Subscribe(IObserver<TailPayload> observer)
 		{
 			if (!_observers.Contains(observer))

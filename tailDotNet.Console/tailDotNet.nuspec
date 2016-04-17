@@ -5,7 +5,7 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>taildotnet</id>
     <title>Tail DotNet</title>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <authors>sackerud</authors>
     <owners>sackerud</owners>
     <summary>An implementation of the UNIX tail command written in .Net</summary>
@@ -21,6 +21,7 @@
       <dependency id="" version="" />
     </dependencies>-->
     <releaseNotes>
+		0.1.3 TODO...
 		0.1.2 Added support for exclusion and inclusion filters
 		0.1.1 Warnings are written in yellow in the console and errors are written in red
 		0.1 This is the first public release and the only way to use tailDotNet at the moment is from the command line
