@@ -6,7 +6,7 @@ namespace tailDotNet
 {
 	public class TailWatcherProxy
 	{
-		private static readonly TailWatcherPool _tailWatcherPool = new TailWatcherPool();
+		private static readonly TailWatcherPool TailWatcherPool = new TailWatcherPool();
 
 		public enum WatcherType
 		{
@@ -18,31 +18,43 @@ namespace tailDotNet
 		{
 			var watcher = CreateWatcherInternal(watcherType, streamReader, sleeper);
 			watcher.Configuration = fileWatchConfiguration;
-			watcher.Start();
+
+			// TODO: Spit the fileWatchConfiguration.NumberOfLinesToOutputWhenWatchingStarts before start the watcher
+
+			//			if (fileWatchConfiguration.Follow)
+			//			{
+
 			AddWatcherToPool(watcher);
+				watcher.Start();
+//			}
 		}
 
 		public static void StartWatcher(WatcherType watcherType, string fileName, IStreamReader streamReader, ISleeper sleeper)
 		{
 			var watcher = CreateWatcherInternal(watcherType, streamReader, sleeper);
 			watcher.Configuration = GetDefaultFileWatcherConfiguration(fileName);
-			watcher.Start();
 			AddWatcherToPool(watcher);
+			watcher.Start();
 		}
 
 		public static int GetWatchCount()
 		{
-			return _tailWatcherPool.Count();
+			return TailWatcherPool.Count();
+		}
+
+		public static void DisposeAll()
+		{
+			TailWatcherPool.DisposeAll();
 		}
 
 		public static void ResumeAll()
 		{
-			_tailWatcherPool.ResumeAll();
+			TailWatcherPool.ResumeAll();
 		}
 
 		public static void SuspendAll()
 		{
-			_tailWatcherPool.SuspendAll();
+			TailWatcherPool.SuspendAll();
 		}
 
 		private static IWatcher CreateWatcherInternal(WatcherType watcherType, IStreamReader streamReader, ISleeper sleeper)
@@ -68,12 +80,7 @@ namespace tailDotNet
 
 		private static void AddWatcherToPool(IWatcher watcher)
 		{
-			_tailWatcherPool.Add(watcher);
-		}
-
-		private static void RemoveWatcherFromPool(IWatcher watcher)
-		{
-			_tailWatcherPool.Remove(watcher);
+			TailWatcherPool.Add(watcher);
 		}
 	}
 }

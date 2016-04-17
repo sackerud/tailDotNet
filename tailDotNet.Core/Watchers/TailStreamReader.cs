@@ -11,12 +11,16 @@ namespace tailDotNet.Watchers
 			_streamReader = new StreamReader(new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 		}
 
+		public Stream BaseStream => _streamReader.BaseStream;
+
+		public void Dispose()
+		{
+			_streamReader.Dispose();
+		}
+
 		public string ReadLine()
 		{
-			//            char[] buffer = new char[Length - Position];
-			//            return _streamReader.Read(buffer, Position, Length);
 			return _streamReader.ReadLine();
-			//            return string.Format("{0}{1}", _streamReader.ReadLine(), Environment.NewLine);
 		}
 
 		public string ReadToEnd()
@@ -24,14 +28,8 @@ namespace tailDotNet.Watchers
 			return _streamReader.ReadToEnd();
 		}
 
-		public long Length
-		{
-			get { return _streamReader.BaseStream.Length; }
-		}
+		public long Length => _streamReader.BaseStream.Length;
 
-		public long Position
-		{
-			get { return _streamReader.BaseStream.Position; }
-		}
+		public long Position => _streamReader.BaseStream.Position;
 	}
 }
