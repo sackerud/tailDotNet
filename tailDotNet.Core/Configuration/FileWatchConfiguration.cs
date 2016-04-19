@@ -17,6 +17,7 @@ namespace tailDotNet.Configuration
 		public bool Follow { get; set; }
 		public TextWriter OutPut { get; set; }
 		public WatchFilter WatchFilter { get; set; }
+		public int NumberOfLinesToOutputWhenWatchingStarts { get; set; }
 
 		public bool HasWatchFilter => WatchFilter != null;
 	}
