@@ -21,7 +21,7 @@
       <dependency id="" version="" />
     </dependencies>-->
     <releaseNotes>
-		0.1.3 TODO...
+		0.1.3 Implementation of the -f (follow) and -n (number of lines to output)
 		0.1.2 Added support for exclusion and inclusion filters
 		0.1.1 Warnings are written in yellow in the console and errors are written in red
 		0.1 This is the first public release and the only way to use tailDotNet at the moment is from the command line

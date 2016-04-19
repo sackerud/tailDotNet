@@ -43,6 +43,7 @@
     <Compile Include="Configuration\ResourceLocators\FileResourceLocator.cs" />
     <Compile Include="Configuration\ResourceLocators\IResourceLocator.cs" />
     <Compile Include="FileEvent.cs" />
+    <Compile Include="FileTailSpitter.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="Configuration\IWatchConfiguration.cs" />
     <Compile Include="Ftp\IFtpWatcher.cs" />

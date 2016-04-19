@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using tailDotNet.Configuration;
 using tailDotNet.Watchers;
@@ -66,8 +65,7 @@ namespace tailDotNet
 		{
 			Paused = false;
 			StartSubscriptionIfObserverExists(Configuration);
-
-			SetStreamPosition(Configuration as FileWatchConfiguration);
+			_lastMaxOffset = FileReader.BaseStream.Length;
 
 			while (!Paused)
 			{
@@ -77,25 +75,6 @@ namespace tailDotNet
 					NotifyObserversThatTailHasGrown(tailString);
 
 				_sleeper.Sleep(Configuration.PollIntervalInMs);
-			}
-		}
-
-		private void SetStreamPosition(FileWatchConfiguration conf)
-		{
-			if (conf.NumberOfLinesToOutputWhenWatchingStarts < 1) return;
-
-			var lineNumberToStartTailingFrom = File.ReadLines(conf.FileName).Count() -
-			                                   conf.NumberOfLinesToOutputWhenWatchingStarts;
-
-			if (lineNumberToStartTailingFrom <= 0) return;
-
-			var index = 1;
-
-			while (FileReader.ReadLine() != null)
-			{
-				if (lineNumberToStartTailingFrom == index) break;
-
-				index++;
 			}
 		}
 
@@ -132,7 +111,7 @@ namespace tailDotNet
 			var stringBuffer = new StringBuilder();
 
 			//seek to the last max offset
-			FileReader.BaseStream.Seek(_lastMaxOffset, SeekOrigin.Current);
+			FileReader.BaseStream.Seek(_lastMaxOffset, SeekOrigin.Begin);
 
 			//read out of the file until the EOF
 			stringBuffer.Append(FileReader.ReadToEnd());

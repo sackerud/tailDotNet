@@ -18,15 +18,9 @@ namespace tailDotNet
 		{
 			var watcher = CreateWatcherInternal(watcherType, streamReader, sleeper);
 			watcher.Configuration = fileWatchConfiguration;
-
-			// TODO: Spit the fileWatchConfiguration.NumberOfLinesToOutputWhenWatchingStarts before start the watcher
-
-			//			if (fileWatchConfiguration.Follow)
-			//			{
-
+			
 			AddWatcherToPool(watcher);
-				watcher.Start();
-//			}
+			watcher.Start();
 		}
 
 		public static void StartWatcher(WatcherType watcherType, string fileName, IStreamReader streamReader, ISleeper sleeper)

@@ -20,7 +20,12 @@ namespace tailDotNet.Console
 
 			try
 			{
-				if (PopulateOptionsFromCommandArgs(args)) StartFileWatch(Options);
+				if (PopulateOptionsFromCommandArgs(args))
+				{
+					System.Console.WriteLine(new FileTailSpitter().GetLastLinesFromFile(TailOptionsToFileWatchConfiguration(Options)));
+
+					if (Options.Follow) StartFileWatch(Options);
+				}
 			}
 			finally
 			{
