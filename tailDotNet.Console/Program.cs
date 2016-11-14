@@ -10,52 +10,61 @@ using tailDotNet.Watchers;
 
 namespace tailDotNet.Console
 {
-	public class Program
-	{
-		static readonly TailOptions Options = new TailOptions();
+    public class Program
+    {
+        static readonly TailOptions Options = new TailOptions();
 
-		public static void Main(string[] args)
-		{
-			System.Console.CancelKeyPress += ConsoleOnCancelKeyPress;
+        public static void Main(string[] args)
+        {
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            System.Console.CancelKeyPress += ConsoleOnCancelKeyPress;
 
-			try
-			{
-				if (PopulateOptionsFromCommandArgs(args))
-				{
-					System.Console.WriteLine(new FileTailSpitter().GetLastLinesFromFile(TailOptionsToFileWatchConfiguration(Options)));
+            try
+            {
+                if (PopulateOptionsFromCommandArgs(args))
+                {
+                    System.Console.WriteLine(new FileTailSpitter().GetLastLinesFromFile(TailOptionsToFileWatchConfiguration(Options)));
 
-					if (Options.Follow) StartFileWatch(Options);
-				}
-			}
-			finally
-			{
-				ResetColorInConsole();
-			}
-		}
+                    if (Options.Follow) StartFileWatch(Options);
+                }
+            }
+            finally
+            {
+                ResetColorInConsole();
+            }
+        }
 
-		private static bool PopulateOptionsFromCommandArgs(string[] args)
-		{
-			var argsParsedSuccessfully = Parser.Default.ParseArguments(args, Options);
+        private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            System.Console.WriteLine("An unexpected exception occured. Stack trace:{0}{1}" , Environment.NewLine, e.ExceptionObject.ToString());
+            System.Console.WriteLine("Terminating...");
+            ResetColorInConsole();
+            Environment.Exit(1);
+        }
 
-			if (!argsParsedSuccessfully) return false;
+        private static bool PopulateOptionsFromCommandArgs(string[] args)
+        {
+            var argsParsedSuccessfully = Parser.Default.ParseArguments(args, Options);
 
-			if (!string.IsNullOrWhiteSpace(Options.ExclusionFilter)
-			    && !string.IsNullOrWhiteSpace(Options.InclusionFilter))
-			{
-				throw new NotSupportedException("Exclusion filter and inclusion filter are mutually exclusive");
-			}
+            if (!argsParsedSuccessfully) return false;
 
-			return true;
-		}
+            if (!string.IsNullOrWhiteSpace(Options.ExclusionFilter)
+                && !string.IsNullOrWhiteSpace(Options.InclusionFilter))
+            {
+                throw new NotSupportedException("Exclusion filter and inclusion filter are mutually exclusive");
+            }
 
-		private static void StartFileWatch(TailOptions options)
-		{
-			if (options.Version) SpitVersionInfoAndExit();
+            return true;
+        }
 
-			var conf = TailOptionsToFileWatchConfiguration(options);
+        private static void StartFileWatch(TailOptions options)
+        {
+            if (options.Version) SpitVersionInfoAndExit();
+
+            var conf = TailOptionsToFileWatchConfiguration(options);
             ISleeper sleeper = new ThreadSleeper();
             IStreamReader streamReader = new TailStreamReader(conf.FileName);
-			TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, streamReader, sleeper);
+            TailWatcherProxy.StartWatcher(TailWatcherProxy.WatcherType.File, conf, streamReader, sleeper);
 		}
 
 		private static void SpitVersionInfoAndExit()
