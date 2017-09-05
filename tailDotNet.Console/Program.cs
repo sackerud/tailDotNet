@@ -10,9 +10,10 @@ using tailDotNet.Watchers;
 
 namespace tailDotNet.Console
 {
-    public class Program
+    public static class Program
     {
-        static readonly TailOptions Options = new TailOptions();
+        private static readonly TailOptions Options = new TailOptions();
+        internal static IEnvironment CurrentEnvironment { get; set; } = new RealEnvironment();
 
         public static void Main(string[] args)
         {
@@ -23,6 +24,14 @@ namespace tailDotNet.Console
             {
                 if (PopulateOptionsFromCommandArgs(args))
                 {
+                    if (Options.Version)
+                    {
+                        SpitVersionInfoAndExit();
+
+                        // XXX: Dirty trick to emulate that FakeEnvironment prevents further execution
+                        if (!(CurrentEnvironment is RealEnvironment)) return;
+                    }
+
                     System.Console.WriteLine(new FileTailSpitter().GetLastLinesFromFile(TailOptionsToFileWatchConfiguration(Options)));
 
                     if (Options.Follow) StartFileWatch(Options);
@@ -39,7 +48,7 @@ namespace tailDotNet.Console
             System.Console.WriteLine("An unexpected exception occured. Stack trace:{0}{1}" , Environment.NewLine, e.ExceptionObject.ToString());
             System.Console.WriteLine("Terminating...");
             ResetColorInConsole();
-            Environment.Exit(1);
+            CurrentEnvironment.Exit(1);
         }
 
         private static bool PopulateOptionsFromCommandArgs(string[] args)
@@ -71,7 +80,7 @@ namespace tailDotNet.Console
 		{
 			var version = GetAssemblyVersion();
 			System.Console.WriteLine(version.ToString());
-			Environment.Exit(0);
+			CurrentEnvironment.Exit(0);
 		}
 
 		private static Version GetAssemblyVersion()
@@ -85,7 +94,7 @@ namespace tailDotNet.Console
 			if (!assertionResult.FileExists)
 			{
 				System.Console.WriteLine(assertionResult.AssertionFailedReason);
-				Environment.Exit(0);
+				CurrentEnvironment.Exit(0);
 			}
 
 			var conf = new FileWatchConfiguration
