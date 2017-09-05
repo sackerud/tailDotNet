@@ -174,3 +174,4 @@ UpgradeLog*.htm
 FakesAssemblies/
 /tailDotNet.UWP/project.lock.json
 /tailDotNet.UWP/tailDotNet.UWP.nuget.targets
+.vs
