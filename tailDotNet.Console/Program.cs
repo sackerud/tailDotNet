@@ -12,7 +12,7 @@ namespace tailDotNet.Console
 {
     public static class Program
     {
-        private static readonly TailOptions Options = new TailOptions();
+        internal static TailOptions Options = new TailOptions();
         internal static IEnvironment CurrentEnvironment { get; set; } = new RealEnvironment();
 
         public static void Main(string[] args)

@@ -4,7 +4,7 @@ using tailDotNet.Console;
 namespace tailDotNet.Test
 {
     [TestClass]
-    public class VersionArgumentTest
+    public class VersionArgumentTest : BaseTest
     {
         [TestMethod]
         public void Sending_version_argument_should_exit_cleanly_with_exitCode_0()
