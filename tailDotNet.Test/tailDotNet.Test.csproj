@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTest.cs" />
     <Compile Include="CommandLineParserTest.cs" />
     <Compile Include="FakeEnvironment.cs" />
     <Compile Include="FakeSleeper.cs" />
