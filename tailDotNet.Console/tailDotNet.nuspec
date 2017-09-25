@@ -35,5 +35,7 @@
   <files>
     <file src="bin\Release\*.exe" target="tools" />
     <file src="bin\Release\*.dll" target="tools" />
+    <file src="..\LICENSE*" target="tools" />
+    <file src="..\VERIFICATION.txt" target="tools" />
   </files>
 </package>
