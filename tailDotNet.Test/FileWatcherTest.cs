@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using tailDotNet.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,7 +44,7 @@ namespace tailDotNet.Test
 			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
 			var watchConf = new FileWatchConfiguration
 			{
-				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "splunk" } }
+				WatchFilter = new WatchFilter { ExclusionFilter = new Filter { SimpleFilter = "splunk" } }
 			};
 
 			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "I'm a splunk!");
@@ -58,7 +57,7 @@ namespace tailDotNet.Test
 			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
 			var watchConf = new FileWatchConfiguration
 			{
-				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "hello" } }
+				WatchFilter = new WatchFilter { ExclusionFilter = new Filter { SimpleFilter = "hello" } }
 			};
 
 			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "I'm a splunk!");
@@ -71,7 +70,7 @@ namespace tailDotNet.Test
 			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
 			var watchConf = new FileWatchConfiguration
 			{
-				WatchFilter = new WatchFilter() { InclusionFilter = new Filter() { SimpleFilter = "hello" } }
+				WatchFilter = new WatchFilter { InclusionFilter = new Filter { SimpleFilter = "hello" } }
 			};
 
 			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "HELLO!");
@@ -84,18 +83,11 @@ namespace tailDotNet.Test
 			var target = new FileWatcher(new FakeStreamReader(), new FakeSleeper());
 			var watchConf = new FileWatchConfiguration
 			{
-				WatchFilter = new WatchFilter() { ExclusionFilter = new Filter() { SimpleFilter = "hello" } }
+				WatchFilter = new WatchFilter { ExclusionFilter = new Filter { SimpleFilter = "hello" } }
 			};
 
 			var actual = target.TailHasGrownButShallObserversBeNotified(watchConf, "HELLO!");
 			Assert.IsFalse(actual);
-		}
-
-		private string GetTempFileWithContents()
-		{
-			var tempFileName = Path.GetTempFileName();
-			File.WriteAllText(tempFileName, "Hello world!");
-			return tempFileName;
 		}
 
 		internal class FileWatchObserver : IObserver<TailPayload>
@@ -107,15 +99,9 @@ namespace tailDotNet.Test
 				return StringBuilder.ToString();
 			}
 
-			public void OnCompleted()
-			{
-				throw new NotImplementedException();
-			}
+			public void OnCompleted() { throw new NotImplementedException(); }
 
-			public void OnError(Exception error)
-			{
-				throw error;
-			}
+			public void OnError(Exception error) { throw error; }
 
 			public void OnNext(TailPayload value)
 			{
@@ -132,33 +118,14 @@ namespace tailDotNet.Test
 				_observers = new List<IObserver<TailPayload>>();
 			}
 
-			public WatchFilter Filter
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-				set
-				{
-					throw new NotImplementedException();
-				}
-			}
-
 			public IWatchConfiguration Configuration { get; set; }
 
-			private bool _isPaused;
-			public bool IsPaused
-			{
-				get { return _isPaused; }
-			}
+		    public bool IsPaused { get; private set; }
 
-			public void Pause() { _isPaused = true; }
-			public void Resume() { _isPaused = false; }
+		    public void Pause() { IsPaused = true; }
+			public void Resume() { IsPaused = false; }
 
-			public void Start()
-			{
-
-			}
+			public void Start() {}
 
 			internal void AddTextToFile(string text)
 			{
