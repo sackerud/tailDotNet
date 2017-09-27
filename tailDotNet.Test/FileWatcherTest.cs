@@ -24,7 +24,7 @@ namespace tailDotNet.Test
 		}
 
 		[TestMethod]
-		public void Test()
+		public void Adding_new_string_to_fileWatcher_can_be_observed()
 		{
 			var fileWatcher = new FakeFileWatcher();
 			var observer = new FileWatchObserver();
