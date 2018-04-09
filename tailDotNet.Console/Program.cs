@@ -12,8 +12,8 @@ namespace tailDotNet.Console
 {
     public static class Program
     {
-        internal static TailOptions Options = new TailOptions();
-        internal static IEnvironment CurrentEnvironment { get; set; } = new RealEnvironment();
+        public static TailOptions Options = new TailOptions();
+        public static IEnvironment CurrentEnvironment { get; set; } = new RealEnvironment();
 
         public static void Main(string[] args)
         {
@@ -53,9 +53,9 @@ namespace tailDotNet.Console
 
         private static bool PopulateOptionsFromCommandArgs(string[] args)
         {
-            var argsParsedSuccessfully = Parser.Default.ParseArguments(args, Options);
+            //var argsParsedSuccessfully = Parser.Default.ParseArguments(args, Options);
 
-            if (!argsParsedSuccessfully) return false;
+            //if (!argsParsedSuccessfully) return false;
 
             if (!string.IsNullOrWhiteSpace(Options.ExclusionFilter)
                 && !string.IsNullOrWhiteSpace(Options.InclusionFilter))
@@ -136,8 +136,9 @@ namespace tailDotNet.Console
 		    {
 		        return new FileExistsAssertionResult
 		        {
-		            AssertionFailedReason = $"You must specify a file to tail. Example: 'tail someLogFile.log'{Environment.NewLine}{options.GetUsage()}"
-		        };
+                    //AssertionFailedReason = $"You must specify a file to tail. Example: 'tail someLogFile.log'{Environment.NewLine}{options.GetUsage()}"
+		            AssertionFailedReason = $"You must specify a file to tail. Example: 'tail someLogFile.log'"
+                };
 		    }
 
 			var fileName = options.Filename.First();
