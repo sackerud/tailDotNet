@@ -5,11 +5,14 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>taildotnet</id>
     <title>Tail DotNet</title>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <authors>sackerud</authors>
     <owners>sackerud</owners>
     <summary>An implementation of the UNIX tail command written in .Net</summary>
-    <description>An implementation of the UNIX tail command written in .Net</description>
+    <description>
+      An implementation of the UNIX tail command written in .Net.
+      Typical usage is `tail -f myLogFile.log`
+    </description>
     <projectUrl>https://github.com/sackerud/tailDotNet</projectUrl>
     <tags>tail reading logs</tags>
     <copyright></copyright>
@@ -21,15 +24,18 @@
       <dependency id="" version="" />
     </dependencies>-->
     <releaseNotes>
-        0.1.4 Graceful shutdown when unhandled exceptions occur
-		0.1.3 Implementation of the -f (follow) and -n (number of lines to output)
-		0.1.2 Added support for exclusion and inclusion filters
-		0.1.1 Warnings are written in yellow in the console and errors are written in red
-		0.1 This is the first public release and the only way to use tailDotNet at the moment is from the command line
-	</releaseNotes>
+      0.1.5 Bugfix for the --version parameter
+      0.1.4 Graceful shutdown when unhandled exceptions occur
+      0.1.3 Implementation of the -f (follow) and -n (number of lines to output)
+      0.1.2 Added support for exclusion and inclusion filters
+      0.1.1 Warnings are written in yellow in the console and errors are written in red
+      0.1 This is the first public release and the only way to use tailDotNet at the moment is from the command line
+  </releaseNotes>
   </metadata>
   <files>
     <file src="bin\Release\*.exe" target="tools" />
     <file src="bin\Release\*.dll" target="tools" />
+    <file src="..\LICENSE*" target="tools" />
+    <file src="..\VERIFICATION.txt" target="tools" />
   </files>
 </package>

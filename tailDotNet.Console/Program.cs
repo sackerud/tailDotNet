@@ -132,7 +132,13 @@ namespace tailDotNet.Console
 
 		private static FileExistsAssertionResult AssertFileExists(TailOptions options)
 		{
-			if (!options.Filename.Any()) return new FileExistsAssertionResult {AssertionFailedReason = "You must specify a file to tail"};
+		    if (!options.Filename.Any())
+		    {
+		        return new FileExistsAssertionResult
+		        {
+		            AssertionFailedReason = $"You must specify a file to tail. Example: 'tail someLogFile.log'{Environment.NewLine}{options.GetUsage()}"
+		        };
+		    }
 
 			var fileName = options.Filename.First();
 
