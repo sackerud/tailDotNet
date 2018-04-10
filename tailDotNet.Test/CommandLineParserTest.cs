@@ -10,9 +10,10 @@ namespace tailDotNet.Test
 		public void ParseInclusionFilterFromArguments()
 		{
 			var options = new Console.TailOptions();
-			CommandLine.Parser.Default.ParseArguments(new[] { "-i", "boing" }, options);
+            //CommandLine.Parser.Default.ParseArguments(new[] { "-i", "boing" }, options);
+		    CommandLine.Parser.Default.ParseArguments(new[] { "-i", "boing" });
 
-			Assert.AreEqual("boing", options.InclusionFilter);
+            Assert.AreEqual("boing", options.InclusionFilter);
 		}
 
 		[TestMethod]
