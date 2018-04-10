@@ -4,12 +4,15 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!--
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    -->
   </PropertyGroup>
 
   <ItemGroup>
