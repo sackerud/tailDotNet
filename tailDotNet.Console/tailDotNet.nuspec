@@ -33,8 +33,8 @@
   </releaseNotes>
   </metadata>
   <files>
-    <file src="bin\Release\*.exe" target="tools" />
-    <file src="bin\Release\*.dll" target="tools" />
+    <file src="bin\Release\netcoreapp2.0\win-x64\*.exe" target="tools" />
+    <file src="bin\Release\netcoreapp2.0\win-x64\*.dll" target="tools" />
     <file src="..\LICENSE*" target="tools" />
     <file src="..\VERIFICATION.txt" target="tools" />
   </files>
