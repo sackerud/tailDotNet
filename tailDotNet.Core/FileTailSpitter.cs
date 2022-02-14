@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+
 using tailDotNet.Configuration;
 
 namespace tailDotNet
@@ -10,27 +13,41 @@ namespace tailDotNet
 
 		public string GetLastLinesFromFile(FileWatchConfiguration conf)
 		{
+			var q = new Queue<string>(conf.NumberOfLinesToOutputWhenWatchingStarts + 1);
 			_streamReader = new StreamReader(new FileStream(conf.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-			SetStreamPosition(conf);
-			return _streamReader.ReadToEnd();
+			var lineEnumerator = new LineEnumerator(_streamReader);
+			foreach (var line in lineEnumerator.Take(conf.NumberOfLinesToOutputWhenWatchingStarts))
+				q.Enqueue(line);
+			foreach (var line in lineEnumerator)
+			{
+				q.Dequeue();
+				q.Enqueue(line);
+			}
+			return string.Join("\n", q);
 		}
 
-		private void SetStreamPosition(FileWatchConfiguration conf)
+		internal class LineEnumerator : IEnumerable<string>
 		{
-			if (conf.NumberOfLinesToOutputWhenWatchingStarts < 1) return;
-
-			var lineNumberToStartTailingFrom = File.ReadLines(conf.FileName).Count() -
-											   conf.NumberOfLinesToOutputWhenWatchingStarts;
-
-			if (lineNumberToStartTailingFrom <= 0) return;
-
-			var index = 1;
-
-			while (_streamReader.ReadLine() != null)
+			private readonly StreamReader _stream;
+			internal LineEnumerator(StreamReader stream)
 			{
-				if (lineNumberToStartTailingFrom == index) break;
+				_stream = stream;
+			}
 
-				index++;
+			public IEnumerator<string> GetEnumerator()
+			{
+				while (!_stream.EndOfStream)
+				{
+					yield return _stream.ReadLine();
+				}
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				while (!_stream.EndOfStream)
+				{
+					yield return _stream.ReadLine();
+				}
 			}
 		}
 	}
