@@ -49,6 +49,7 @@
     <Compile Include="FakeEnvironment.cs" />
     <Compile Include="FakeSleeper.cs" />
     <Compile Include="FakeStreamReader.cs" />
+    <Compile Include="FileTailSplitterTest.cs" />
     <Compile Include="FileWatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VersionArgumentTest.cs" />
